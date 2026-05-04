@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <customErrors>
+        <description>l&apos;erreur trouvée , on envoie un message</description>
+        <name>message_erreur</name>
+        <label>message erreur</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <customErrorMessages>
+            <errorMessage>{!message_erreur}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <description>on fait des conditions en fonction du résultat</description>
+        <name>resultat</name>
+        <label>resultat</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>heure non trouvee</defaultConnectorLabel>
+        <rules>
+            <name>heure_trouvee</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recuperer_les_saisies_de_temps</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>message_erreur</targetReference>
+            </connector>
+            <label>heure trouvée</label>
+        </rules>
+    </decisions>
+    <description>Empecher les intervalles d&apos;heure dupliqués à la saisie de temps</description>
+    <environments>Default</environments>
+    <interviewLabel>Empecher les intervalles d&apos;heure dupliqués à la saisie de temps {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Empecher les intervalles d&apos;heure dupliqués à la saisie de temps</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>récuperer les saisies de temps</description>
+        <name>recuperer_les_saisies_de_temps</name>
+        <label>récuperer les saisies de temps</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>resultat</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Heure_de_debut__c</field>
+            <operator>LessThan</operator>
+            <value>
+                <elementReference>$Record.Heure_de_fin__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Heure_de_fin__c</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <elementReference>$Record.Heure_de_debut__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Feuille_de_temps__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Feuille_de_temps__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Saisie_de_temps__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>recuperer_les_saisies_de_temps</targetReference>
+        </connector>
+        <object>Saisie_de_temps__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+    <textTemplates>
+        <description>Message d&apos;erreur pour les heures de saisies</description>
+        <name>error_message_saisie</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Impossible d&apos;enregistrer cette saisie. Les heures sélectionnées chevauchent &lt;/p&gt;&lt;p&gt;une saisie existante   créée le  LPAD(TEXT(DAY(DATEVALUE({!recuperer_les_saisies_de_temps.CreatedDate}))), 2, &quot;0&quot;) &amp;amp; &quot;/&quot; &amp;amp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;LPAD(TEXT(MONTH(DATEVALUE({!recuperer_les_saisies_de_temps.CreatedDate}))), 2, &quot;0&quot;) &amp;amp; &quot;/&quot; &amp;amp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;TEXT(YEAR(DATEVALUE({!recuperer_les_saisies_de_temps.CreatedDate}))) &amp;amp; &quot; &quot; &amp;amp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;MID(TEXT({!recuperer_les_saisies_de_temps.CreatedDate}), 12, 5)&lt;/p&gt;&lt;p&gt;Heure de début : {!recuperer_les_saisies_de_temps.Heure_de_debut__c} &lt;/p&gt;&lt;p&gt; heure de fin {!recuperer_les_saisies_de_temps.Heure_de_fin__c}.  pour cette même tâche&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

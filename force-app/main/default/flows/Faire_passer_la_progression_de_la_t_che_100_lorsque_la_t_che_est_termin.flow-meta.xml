@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Faire passer la progression  de la tâche à 100% lorsque la tâche est terminé</description>
+    <environments>Default</environments>
+    <interviewLabel>Faire passer la progression  de la tâche à 100% lorsque la tâche est terminé {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Faire passer la progression  de la tâche à 100% lorsque la tâche est terminé</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>on fait évoluer la progression d&apos;une tâche à 100 lorsque le statut est terminé</description>
+        <name>Passer_la_progression_100</name>
+        <label>Passer la progression à 100</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Taux__c</field>
+            <value>
+                <numberValue>100.0</numberValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Passer_la_progression_100</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Terminé</stringValue>
+            </value>
+        </filters>
+        <object>Tache__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#01B6AF</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>App de demande de congés</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Congés</label>
+    <navType>Standard</navType>
+    <tabs>standard-home</tabs>
+    <tabs>Demande_de_Conge__c</tabs>
+    <tabs>Solde_Conge__c</tabs>
+    <tabs>Tache__c</tabs>
+    <tabs>Depense__c</tabs>
+    <tabs>Projet__c</tabs>
+    <tabs>Personne_projet__c</tabs>
+    <tabs>Absence__c</tabs>
+    <tabs>formation__c</tabs>
+    <tabs>Inscription_Formation__c</tabs>
+    <tabs>GATEAU__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Cong_s_UtilityBar</utilityBar>
+</CustomApplication>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <customErrors>
+        <name>Erreur_Dates_Chevauchement</name>
+        <label>Erreur Dates de Chevauchement</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <customErrorMessages>
+            <errorMessage>{!f_MessageErreurSecurise}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <description>si une tache a été trouvé qui correspond à ces critèrres</description>
+        <name>conflit_trouve</name>
+        <label>conflit trouve</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>oui_conflit</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Recuperer_tache_at_same_dates.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Erreur_Dates_Chevauchement</targetReference>
+            </connector>
+            <label>oui conflit</label>
+        </rules>
+    </decisions>
+    <description>empêcher l&apos;enregistrement d&apos;une nouvelle tâche si une ancienne a la meme date et pour le même owner existe déjà</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Message d&apos;erreur pour bloquer l&apos;enregistrement d&apos;une tâche existante à la meme date</description>
+        <name>f_MessageErreurSecurise</name>
+        <dataType>String</dataType>
+        <expression>&quot;Attention ! La tâche : &quot; + BLANKVALUE({!Recuperer_tache_at_same_dates.Name}, &quot;Tâche sans nom&quot;) + 
+&quot; allant du &quot; + 
+/* DEBUT : Jour avec 0 */
+IF(DAY(DATEVALUE({!Recuperer_tache_at_same_dates.Date_debut__c})) &lt; 10, &quot;0&quot;, &quot;&quot;) + 
+TEXT(DAY(DATEVALUE({!Recuperer_tache_at_same_dates.Date_debut__c}))) + &quot;/&quot; + 
+/* DEBUT : Mois avec 0 */
+IF(MONTH(DATEVALUE({!Recuperer_tache_at_same_dates.Date_debut__c})) &lt; 10, &quot;0&quot;, &quot;&quot;) + 
+TEXT(MONTH(DATEVALUE({!Recuperer_tache_at_same_dates.Date_debut__c}))) + &quot;/&quot; + 
+TEXT(YEAR(DATEVALUE({!Recuperer_tache_at_same_dates.Date_debut__c}))) + 
+
+&quot; au &quot; + 
+
+/* FIN : Jour avec 0 */
+IF(DAY(DATEVALUE({!Recuperer_tache_at_same_dates.Date_de_fin__c})) &lt; 10, &quot;0&quot;, &quot;&quot;) + 
+TEXT(DAY(DATEVALUE({!Recuperer_tache_at_same_dates.Date_de_fin__c}))) + &quot;/&quot; + 
+/* FIN : Mois avec 0 */
+IF(MONTH(DATEVALUE({!Recuperer_tache_at_same_dates.Date_de_fin__c})) &lt; 10, &quot;0&quot;, &quot;&quot;) + 
+TEXT(MONTH(DATEVALUE({!Recuperer_tache_at_same_dates.Date_de_fin__c}))) + &quot;/&quot; + 
+TEXT(YEAR(DATEVALUE({!Recuperer_tache_at_same_dates.Date_de_fin__c}))) + 
+&quot; existe déjà pour l&apos;utilisateur &quot;+ {!Recuperer_tache_at_same_dates.User__r.LastName}+&quot;  &quot;+{!Recuperer_tache_at_same_dates.User__r.FirstName}</expression>
+    </formulas>
+    <interviewLabel>Bloquer l&apos;enregistrement d&apos;une nouvelle activitée {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>empecher plusieurs tâches de meme période</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Récupérer  une tache qui qui existé déjà à cette meme date pour ce même projet</description>
+        <name>Recuperer_tache_at_same_dates</name>
+        <label>Recuperer tache at same dates</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>conflit_trouve</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>En cours</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>User__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.User__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Tache__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Recuperer_tache_at_same_dates</targetReference>
+        </connector>
+        <object>Tache__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

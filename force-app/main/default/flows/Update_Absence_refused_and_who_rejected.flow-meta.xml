@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Envoi_de_mail_de_validation_de_la_demande_dabsence</name>
+        <label>Envoi de mail de validation de la demande d&apos;absence</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Ecran_de_succes_de_validation</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>Absence_rejetee_demande</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;votre demande d&apos;absence  &lt;/span&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(127, 15, 15);&quot;&gt;{!Get_record_to_Update_for_validation_absence.MotifAbsence__c} &lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt; a été rejetée par &lt;/span&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(69, 118, 49);&quot;&gt;{!$User.LastName}&lt;/strong&gt;&lt;/p&gt;</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>2.0.1</versionString>
+    </actionCalls>
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <description>Rejeté</description>
+        <name>constant_absence_api_rejected</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Rejeté</stringValue>
+        </value>
+    </constants>
+    <customProperties>
+        <name>ScreenProgressIndicator</name>
+        <value>
+            <stringValue>{&quot;location&quot;:&quot;top&quot;,&quot;type&quot;:&quot;simple&quot;}</stringValue>
+        </value>
+    </customProperties>
+    <description>Flow qui gère le bouton de refus de la validation</description>
+    <environments>Default</environments>
+    <interviewLabel>Update Absence   refused and who rejected {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Absence   refused and who rejected</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>get record to be updated</description>
+        <name>Get_record_to_Update_for_validation_absence</name>
+        <label>Get record to Update for validation absence</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Absence</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Absence__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update statut of record and person who valid this</description>
+        <name>Update_Absence</name>
+        <label>Update Absence</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Envoi_de_mail_de_validation_de_la_demande_dabsence</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Statut__c</field>
+            <value>
+                <elementReference>constant_absence_api_rejected</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>valid_by__c</field>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Absence__c</object>
+    </recordUpdates>
+    <screens>
+        <description>Ecran de succès de validation</description>
+        <name>Ecran_de_succes_de_validation</name>
+        <label>Ecran de succès de validation</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>text_demande_absence</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(202, 14, 20);&quot;&gt;&lt;em&gt;votre demande d&apos;absence a été rejetée  &lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_record_to_Update_for_validation_absence</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>Rejeté</description>
+        <name>absence_rejected</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Rejeté&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Demande rejetée</description>
+        <name>Absence_rejetee_demande</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Demande rejetée</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Absence Validée</description>
+        <name>Absencevalidee</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Absence Validée&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Demande d&apos;absence validée</description>
+        <name>Email_Body_Validation</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Votre demande d&apos;absence a été validée&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Absence Validée</description>
+        <name>MyAbsenceIsValid</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Absence Validée</text>
+    </textTemplates>
+    <variables>
+        <description>pour récupérer l&apos;Id du record</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

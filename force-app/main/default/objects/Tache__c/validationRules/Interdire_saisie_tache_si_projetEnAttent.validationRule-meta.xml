@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interdire_saisie_tache_si_projetEnAttent</fullName>
+    <active>true</active>
+    <description>Cette règle permet de bloquer la modification d&apos;une tâche si le statut du projet est En attente</description>
+    <errorConditionFormula>OR(
+        INCLUDES(Projet__r.Statut__c ,  &quot;En attente&quot;),
+								INCLUDES(Projet__r.Statut__c ,  &quot;Annulé&quot;)
+    )</errorConditionFormula>
+    <errorMessage>Impossible de saisir des informations pour cette tâche : le projet est En attente ou Annulé</errorMessage>
+</ValidationRule>

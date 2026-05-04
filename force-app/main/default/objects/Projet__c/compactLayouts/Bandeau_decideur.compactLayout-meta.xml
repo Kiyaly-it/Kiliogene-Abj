@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bandeau_decideur</fullName>
+    <fields>Name</fields>
+    <fields>health_project__c</fields>
+    <fields>Icone_Evolution__c</fields>
+    <fields>budget_c__c</fields>
+    <fields>actual_cost__c</fields>
+    <fields>ecart_budg_taire__c</fields>
+    <fields>Countdown__c</fields>
+    <fields>Taux_de_consommation_du_temps__c</fields>
+    <label>Bandeau decideur</label>
+</CompactLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Projets_en_cours</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>Statut__c</columns>
+    <columns>health_project__c</columns>
+    <columns>Icone_Evolution__c</columns>
+    <columns>startDate__c</columns>
+    <columns>endDate__c</columns>
+    <columns>actual_cost__c</columns>
+    <columns>chef_projet__c</columns>
+    <columns>Account__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Statut__c</field>
+        <operation>equals</operation>
+        <value>En cours</value>
+    </filters>
+    <label>⏳ Projets en cours</label>
+</ListView>

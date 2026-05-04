@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Block_modif_projet_si_statut_en_cours</fullName>
+    <active>true</active>
+    <description>Bloquer toute modifier du projet si son statut est en attente</description>
+    <errorConditionFormula>AND(
+   NOT(ISNEW()),
+   NOT(INCLUDES(Statut__c, &quot;En cours&quot;)),
+   NOT(ISCHANGED(Statut__c))
+)</errorConditionFormula>
+    <errorMessage>La modification des informations du projet n&apos;est possible que si il est en cours,
+changez d&apos;abord son statut pour modifier les autres</errorMessage>
+</ValidationRule>

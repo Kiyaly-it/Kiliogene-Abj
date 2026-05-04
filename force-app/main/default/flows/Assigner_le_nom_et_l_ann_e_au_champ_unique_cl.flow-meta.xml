@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Assignation à la variable Clé unique Année ressource</description>
+        <name>Assignation_la_variable_Cle_Unique_Annee_Ressource</name>
+        <label>Assignation à la variable Clé unique Année ressource</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Cle_Unique_Annee_Ressource__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>year_name_employee</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Assigner le nom et l&apos;année à au champ unique clé</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Recupérer la ressource et l&apos;année</description>
+        <name>retrieve_year_resource</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.annee__c}) + &quot;_&quot; + {!$Record.Employe__c}</expression>
+    </formulas>
+    <formulas>
+        <description>Pour mettre dans un champ unique le nom et l&apos;année</description>
+        <name>Year_employee_Name</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.annee__c}) + &quot;_&quot; + {!$Record.Employe__c}</expression>
+    </formulas>
+    <formulas>
+        <description>Unicité du nom  et de l&apos;année de création des congés</description>
+        <name>year_name_employee</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.annee__c}) + &quot;_&quot; + {!$Record.Employe__c}</expression>
+    </formulas>
+    <interviewLabel>Assigner le nom et l&apos;année à au champ unique clé {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Assigner le nom et l&apos;année à au champ unique clé</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Assignation_la_variable_Cle_Unique_Annee_Ressource</targetReference>
+        </connector>
+        <object>Solde_Conge__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

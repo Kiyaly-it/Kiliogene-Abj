@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>SendMessage</name>
+        <label>SendMessage</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SlackInvocableAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>email</name>
+            <value>
+                <elementReference>Get_User_infos.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <elementReference>new_task_notification_slack</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SlackInvocableAction</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Get  infos from user and send slack notification</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>TacheURL</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Enterprise_Server_URL_590},
+            FIND(&apos;/services&apos;, {!$Api.Enterprise_Server_URL_590}) - 1)</expression>
+    </formulas>
+    <interviewLabel>Get  infos from user and send slack notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Get  infos from user and send slack notification</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get User infos</description>
+        <name>Get_User_infos</name>
+        <label>Get User infos</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>SendMessage</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.User__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Email</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>LastModifiedById</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>User__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Tache__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <connector>
+                <targetReference>Get_User_infos</targetReference>
+            </connector>
+            <pathType>AsyncAfterCommit</pathType>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>InvalidDraft</status>
+    <textTemplates>
+        <description>send notification for new task</description>
+        <name>new_task_notification_slack</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>:clipboard: *Nouvelle tâche Salesforce*
+
+     Bonjour *{!Get_User_infos.Name}*,
+     Une nouvelle tâche vous a été affectée par *{!$User.FirstName} {!$User.LastName}*.
+     Veuillez la consulter pour plus de détails.  🔗 &lt;{!TacheURL}/lightning/r/Tache__c/{!$Record.Id}/view|Ouvrir la tâche&gt;</text>
+    </textTemplates>
+</Flow>

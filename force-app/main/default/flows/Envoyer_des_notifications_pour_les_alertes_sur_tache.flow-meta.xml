@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Send Email Action to Affected Tache</description>
+        <name>Send_Email_Action_to_Affected_Tache</name>
+        <label>Send Email Action to Affected Tache</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Parcourir_toutes_les_taches</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>ccAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Notification sur les tâches</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>&lt;p&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(62, 124, 32);&quot;&gt;{!var_Message_Specifique}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!tt_Message_Dynamique}&lt;/span&gt;&lt;/p&gt;</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>2.0.1</versionString>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Mettre à jour le message de tâche annulées</description>
+        <name>Mettre_jour_le_message_de_tache_annulees</name>
+        <label>Mettre à jour le message de tâche annulées</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_Message_Specifique</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cette tâche a été annulée. Aucune action supplémentaire n&apos;est requise.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_Action_to_Affected_Tache</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Mettre à jour le message de tâche en cours</description>
+        <name>Mettre_jour_le_message_de_tache_en_cours</name>
+        <label>Mettre à jour le message de tâche en cours</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_Message_Specifique</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cette tâche est toujours active. N&apos;oubliez pas de mettre à jour votre avancement.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_Action_to_Affected_Tache</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Mettre à jour le message de tâche en retard</description>
+        <name>Mettre_jour_le_message_de_tache_en_retard</name>
+        <label>Mettre à jour le message de tâche en retard</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_Message_Specifique</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Attention, cette tâche a dépassé son échéance. Merci d&apos;agir vite.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_Action_to_Affected_Tache</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Mettre à jour le message de tâche en terminées</description>
+        <name>Mettre_jour_le_message_de_tache_en_terminees</name>
+        <label>Mettre à jour le message de tâche en terminées</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_Message_Specifique</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Félicitations ! Cette tâche est désormais clôturée. Le livrable a bien été enregistré et votre contribution permet au projet de progresser vers sa phase finale.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_Action_to_Affected_Tache</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Statut des taches</description>
+        <name>Statut_des_taches</name>
+        <label>Statut des taches</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Parcourir_toutes_les_taches</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Autre tâche de différents statut</defaultConnectorLabel>
+        <rules>
+            <name>taches_en_cours</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Parcourir_toutes_les_taches.Statut__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>En cours</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mettre_jour_le_message_de_tache_en_cours</targetReference>
+            </connector>
+            <label>taches en cours</label>
+        </rules>
+        <rules>
+            <name>taches_annulees</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Parcourir_toutes_les_taches.Statut__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Annulé</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mettre_jour_le_message_de_tache_annulees</targetReference>
+            </connector>
+            <label>taches annulees</label>
+        </rules>
+        <rules>
+            <name>taches_en_retard</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Parcourir_toutes_les_taches.Statut__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>En retard</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mettre_jour_le_message_de_tache_en_retard</targetReference>
+            </connector>
+            <label>taches en retard</label>
+        </rules>
+        <rules>
+            <name>taches_terminees</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Parcourir_toutes_les_taches.Statut__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Terminé</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mettre_jour_le_message_de_tache_en_terminees</targetReference>
+            </connector>
+            <label>taches terminees</label>
+        </rules>
+    </decisions>
+    <description>Envoyer des notifications pour les alertes sur tâche</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>lien vers l&apos;enregistrement</description>
+        <name>f_LienEnregistrement</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Partner_Server_URL_580}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_580})) &amp; {!Parcourir_toutes_les_taches.Id}</expression>
+    </formulas>
+    <interviewLabel>Envoyer des notifications pour les alertes sur tâche {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Envoyer des notifications pour les alertes sur tâche</label>
+    <loops>
+        <description>Parcourir toutes les taches</description>
+        <name>Parcourir_toutes_les_taches</name>
+        <label>Parcourir toutes les taches</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Recuperer_toutes_les_taches</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Statut_des_taches</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get Mail Business Analyst</description>
+        <name>Get_Mail_Business_Analyst</name>
+        <label>Get Mail Business Analyst</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Recuperer_toutes_les_taches</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Fonction__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Business Analyst</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get mail  Gérante de Kiliogene</description>
+        <name>Get_Mail_Gerant</name>
+        <label>Get Mail Gerant(e)</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Mail_Business_Analyst</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Fonction__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Gérante Kiliogène Abidjan</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Récuperer  toutes les tâches</description>
+        <name>Recuperer_toutes_les_taches</name>
+        <label>Recuperer toutes les taches</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Parcourir_toutes_les_taches</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>En cours</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Terminé</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>En attente</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>En retard</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Tache__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Mail_Gerant</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>Mail en fonction du statut tache</description>
+        <name>Mail_en_fonction_du_statut_tache</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Bonjour ProprietaireTache&lt;/p&gt;&lt;p&gt;Ce message automatique vous informe qu&apos;une action est requise sur la tâche suivante liée au projet &lt;b&gt; project Name&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Détails de la tâche :&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Sujet : sujet&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Échéance :&lt;/strong&gt;  &lt;/li&gt;&lt;li&gt;&lt;strong&gt;Priorité :&lt;/strong&gt;  &lt;/li&gt;&lt;li&gt;&lt;strong&gt;Santé / Alerte :&lt;/strong&gt;  &lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Motif de l&apos;alerte :&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Retard :&lt;/strong&gt; Si l&apos;échéance est dépassée, merci de mettre à jour la date ou de clôturer la tâche.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Santé :&lt;/strong&gt; Si la santé est en &quot;Alerte&quot;, un commentaire explicatif doit être ajouté dans Salesforce.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Merci de régulariser la situation directement dans Salesforce en cliquant sur le lien de la tâche.&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Message dynamique en fonction du statut</description>
+        <name>tt_Message_Dynamique</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Bonjour   &lt;/p&gt;&lt;p&gt;{!Parcourir_toutes_les_taches.User__r.FirstName}. {!Parcourir_toutes_les_taches.User__r.LastName}&lt;/p&gt;&lt;p&gt;Votre tâche  &lt;span style=&quot;color: rgb(46, 98, 10);&quot;&gt; &lt;/span&gt;&lt;strong style=&quot;color: rgb(46, 98, 10);&quot;&gt;{!Parcourir_toutes_les_taches.Name}&lt;/strong&gt;&lt;strong style=&quot;color: rgb(95, 4, 4);&quot;&gt; &lt;/strong&gt; liée au projet &lt;strong style=&quot;color: rgb(163, 83, 17);&quot;&gt;{!Parcourir_toutes_les_taches.Projet__r.Name}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt; est actuellement : &lt;strong&gt; &lt;/strong&gt;{!Parcourir_toutes_les_taches.Statut__c} .  &lt;/p&gt;&lt;p&gt;⚠️ &lt;strong&gt;Détails importants :&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;color: rgb(170, 7, 7);&quot;&gt;Priorité&lt;/strong&gt;&lt;strong&gt; :&lt;/strong&gt;  {!Parcourir_toutes_les_taches.Priorite__c}&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;color: rgb(173, 10, 10);&quot;&gt;Échéance&lt;/strong&gt;&lt;strong&gt; :&lt;/strong&gt;  {!Parcourir_toutes_les_taches.Date_de_fin__c}&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;color: rgb(163, 7, 7);&quot;&gt;Santé du projet &lt;/strong&gt;&lt;strong&gt;:&lt;/strong&gt;    {!Parcourir_toutes_les_taches.Alerte_Visuelle__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Vous pouvez accéder à l&apos;enregistrement ici : &lt;strong style=&quot;color: rgb(48, 8, 228); font-size: 14px;&quot;&gt; {!f_LienEnregistrement}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Merci de prendre les mesures nécessaires en fonction de ce statut dans Salesforce.&lt;/em&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <description>Message spécifique</description>
+        <name>var_Message_Specifique</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>Attention, cette tâche a dépassé son échéance. Merci d&apos;agir vite.</stringValue>
+        </value>
+    </variables>
+</Flow>

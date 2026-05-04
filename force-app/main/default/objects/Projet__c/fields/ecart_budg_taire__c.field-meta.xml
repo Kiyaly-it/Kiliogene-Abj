@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ecart_budg_taire__c</fullName>
+    <description>Ecart budgétaire</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  (budget_c__c - actual_cost__c) &gt; 0,
+  &quot;💰💰💰&quot; &amp; BR() &amp;
+  &quot;📈 𝐄𝐗𝐂𝐄́𝐃𝐄𝐍𝐓 : ➕ &quot; &amp; 
+  IF(ABS(budget_c__c - actual_cost__c) &gt;= 1000000, TEXT(FLOOR(ABS(budget_c__c - actual_cost__c) / 1000000)) &amp; &quot; &quot;, &quot;&quot;) &amp;
+  IF(ABS(budget_c__c - actual_cost__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(budget_c__c - actual_cost__c) / 1000)), 3) &amp; &quot; &quot;, &quot;&quot;) &amp;
+  RIGHT(TEXT(ABS(budget_c__c - actual_cost__c)), 3) &amp; &quot; 𝐗𝐎𝐅&quot;,
+
+  IF(
+    (budget_c__c - actual_cost__c) = 0,
+    &quot;⚖️⚖️⚖️&quot; &amp; BR() &amp;
+    &quot;🎯 𝐄́𝐐𝐔𝐈𝐋𝐈𝐁𝐑𝐄 : 𝟎 𝐗𝐎𝐅&quot;,
+
+    &quot;🚨🚨🚨&quot; &amp; BR() &amp;
+    &quot;📉 𝐃𝐄́𝐅𝐈𝐂𝐈𝐓 : ➖ &quot; &amp; 
+    IF(ABS(budget_c__c - actual_cost__c) &gt;= 1000000, TEXT(FLOOR(ABS(budget_c__c - actual_cost__c) / 1000000)) &amp; &quot; &quot;, &quot;&quot;) &amp;
+    IF(ABS(budget_c__c - actual_cost__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(budget_c__c - actual_cost__c) / 1000)), 3) &amp; &quot; &quot;, &quot;&quot;) &amp;
+    RIGHT(TEXT(ABS(budget_c__c - actual_cost__c)), 3) &amp; &quot; 𝐗𝐎𝐅&quot;
+  )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Ecart budgétaire</inlineHelpText>
+    <label>ecart budgétaire</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

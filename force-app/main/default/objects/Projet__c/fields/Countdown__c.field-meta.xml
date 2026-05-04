@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Countdown__c</fullName>
+    <description>Jours restants avant la fin</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    INCLUDES(Statut__c, &quot;Terminé&quot;),
+    &quot;✅ Projet clôturé&quot;,
+    
+    IF(
+        OR(ISBLANK(startDate__c), ISBLANK(endDate__c)),
+        &quot;⚪ Dates non définies&quot;,
+        
+        IF(
+            /* Priorité au statut : si En cours, on calcule la fin peu importe la date de début */
+            INCLUDES(Statut__c, &quot;En cours&quot;),
+            IF( 
+                (endDate__c - TODAY()) &lt; 0,
+                &quot;🏁 échéance dépassée (&quot; &amp; TEXT(ABS(endDate__c - TODAY())) &amp; &quot; jours de retard)&quot;,
+                IF(
+                    (endDate__c - TODAY()) = 0,
+                    &quot;🚨 𝐃𝐄𝐑𝐍𝐈𝐄𝐑 𝐉𝐎𝐔𝐑!&quot;,
+                    &quot;⏳ 𝐉 — &quot; &amp; 
+                    SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(
+                    TEXT(endDate__c - TODAY()), 
+                    &quot;0&quot;, &quot;𝟎&quot;), &quot;1&quot;, &quot;𝟏&quot;), &quot;2&quot;, &quot;𝟐&quot;), &quot;3&quot;, &quot;𝟑&quot;), &quot;4&quot;, &quot;𝟒&quot;), &quot;5&quot;, &quot;𝟓&quot;), &quot;6&quot;, &quot;𝟔&quot;), &quot;7&quot;, &quot;𝟕&quot;), &quot;8&quot;, &quot;𝟖&quot;), &quot;9&quot;, &quot;𝟗&quot;) 
+                   
+                )
+            ),
+
+            /* Si pas En cours et date dans le futur */
+            IF(
+                TODAY() &lt; startDate__c,
+                &quot;🕒 (𝐃𝐞́𝐦𝐚𝐫𝐫e 𝐥𝐞 &quot; &amp; 
+                IF(DAY(startDate__c) &lt; 10, &quot;0&quot;, &quot;&quot;) &amp; TEXT(DAY(startDate__c)) &amp; &quot;/&quot; &amp; 
+                IF(MONTH(startDate__c) &lt; 10, &quot;0&quot;, &quot;&quot;) &amp; TEXT(MONTH(startDate__c)) &amp; &quot;/&quot; &amp; 
+                TEXT(YEAR(startDate__c)) &amp; 
+                &quot; — dans &quot; &amp; TEXT(startDate__c - TODAY()) &amp; &quot; jrs)&quot;,
+                &quot;⚠️ Démarrage manuel requis&quot;
+            )
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Jours restants  avant la fin</inlineHelpText>
+    <label>jours J avant la fin</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

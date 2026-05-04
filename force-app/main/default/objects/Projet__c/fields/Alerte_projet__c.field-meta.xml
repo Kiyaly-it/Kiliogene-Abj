@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alerte_projet__c</fullName>
+    <description>Alerte projet</description>
+    <externalId>false</externalId>
+    <formula>IF(INCLUDES(Statut__c, &quot;Terminé&quot;), &quot;✅ Projet clôturé&quot;,
+
+/* --- 1. ALERTE BUDGET --- */
+IF(actual_cost__c &gt; budget_c__c, &quot;🔴 Budget Dépassé; &quot;, 
+    IF(actual_cost__c &gt; (budget_c__c * 0.9), &quot;🟠 Seuil 90%; &quot;, &quot;&quot;)
+) &amp; 
+
+/* --- 2. ALERTE CALENDRIER --- */
+IF(AND(INCLUDES(Statut__c, &quot;En cours&quot;), (endDate__c - TODAY()) &lt; 0), &quot;🚨 Échéance Passée; &quot;, 
+    IF(AND(INCLUDES(Statut__c, &quot;En cours&quot;), (endDate__c - TODAY()) &lt;= 3), &quot;⚠️ Fin Proche; &quot;, &quot;&quot;)
+) &amp;
+
+/* --- 3. ALERTE AVANCEMENT --- */
+IF(AND(NOT(INCLUDES(Statut__c, &quot;Terminé&quot;)), progression_pourcentage__c &lt; 0.2), &quot;📉 Faible Avancement; &quot;, &quot;&quot;) &amp;
+
+/* --- 4. MESSAGE SI TOUT EST OK --- */
+IF(AND(
+    actual_cost__c &lt;= budget_c__c, 
+    OR(NOT(INCLUDES(Statut__c, &quot;En cours&quot;)), (endDate__c - TODAY()) &gt; 3),
+    progression_pourcentage__c &gt;= 0.2
+), &quot;🟢 Tout est OK&quot;, &quot;&quot;)
+
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Alerte projet</inlineHelpText>
+    <label>Alerte projet</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

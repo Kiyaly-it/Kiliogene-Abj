@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_des_taches_en_attente__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Total tâches en attente</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Total tâches en attente</inlineHelpText>
+    <label>Total des tâches en attente</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <customProperties>
+        <name>ScreenProgressIndicator</name>
+        <value>
+            <stringValue>{&quot;location&quot;:&quot;top&quot;,&quot;type&quot;:&quot;simple&quot;}</stringValue>
+        </value>
+    </customProperties>
+    <description>Documentation administrative Kiliogène Abidjan</description>
+    <environments>Default</environments>
+    <interviewLabel>Documentation kiliogene {!$Flow.CurrentDateTime}</interviewLabel>
+    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
+    <label>Documentation kiliogene</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <description>Documentation Kiliogène</description>
+        <name>documentation</name>
+        <label>documentation kiliogène</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Doc_lien_vers_notion</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://www.notion.so/2e75cb4b962a8048874ef122a7db9842?v=2e75cb4b962a80c59f8f000cb5a3729c&amp;amp;source=copy_link&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 18px;&quot;&gt;Documentation Kiliogène&lt;/a&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;     &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.notion.so/2e95cb4b962a80b8a77cd30c8b14c2c0?v=2e95cb4b962a81ce80cc000c2d2043f3&amp;amp;source=copy_link&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 18px;&quot;&gt;Wiki ingénieurie &lt;/a&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;  &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.notion.so/Compte-rendu-de-la-r-union-21-01-2026-2ed5cb4b962a80558857f9fb74e13603&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 18px;&quot;&gt;Modèle de compte rendu&lt;/a&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;  &lt;/span&gt;    &lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>documentation</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+</Flow>

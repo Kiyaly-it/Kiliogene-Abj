@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>type_de_formation__c</fullName>
+    <defaultValue>&quot;Perfectionnement&quot;</defaultValue>
+    <description>Type de la formation</description>
+    <inlineHelpText>Type de la formation</inlineHelpText>
+    <label>type de formation</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Certification</fullName>
+                <default>false</default>
+                <label>Certification</label>
+            </value>
+            <value>
+                <fullName>Coaching</fullName>
+                <default>false</default>
+                <label>Coaching</label>
+            </value>
+            <value>
+                <fullName>Perfectionnement</fullName>
+                <default>false</default>
+                <label>Perfectionnement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

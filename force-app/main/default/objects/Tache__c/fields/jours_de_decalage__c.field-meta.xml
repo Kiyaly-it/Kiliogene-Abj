@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>jours_de_decalage__c</fullName>
+    <description>Jours de  retard de la. tâche</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    ISPICKVAL(Statut__c, &quot;Terminé&quot;), 
+    /* Option 1: Laisser vide une fois terminé */
+    NULL, 
+    IF(
+        ISBLANK(Date_de_fin__c),
+        NULL,
+        /* Calcul : Date de fin moins aujourd&apos;hui */
+        /* Si Date de fin est passée, le résultat sera négatif*/
+        ROUND(Date_de_fin__c - NOW(), 0)
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Jours de  retard de la. tâche</inlineHelpText>
+    <label>⏳ Décalage</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duree_du_projet__c</fullName>
+    <description>Durée du projet</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    (YEAR(endDate__c) - YEAR(startDate__c)) &gt; 0 &amp;&amp; 
+    (MONTH(endDate__c) + (12 * (YEAR(endDate__c) - YEAR(startDate__c))) - MONTH(startDate__c)) &gt;= 12,
+    TEXT(FLOOR((MONTH(endDate__c) + (12 * (YEAR(endDate__c) - YEAR(startDate__c))) - MONTH(startDate__c)) / 12)) &amp; &quot; an(s)&quot;,
+
+    IF(
+        (MONTH(endDate__c) + (12 * (YEAR(endDate__c) - YEAR(startDate__c))) - MONTH(startDate__c)) &gt; 0,
+        TEXT(MONTH(endDate__c) + (12 * (YEAR(endDate__c) - YEAR(startDate__c))) - MONTH(startDate__c)) &amp; &quot; mois&quot;,
+        
+        TEXT(endDate__c - startDate__c) &amp; &quot; jour(s)&quot;
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Durée du projet</inlineHelpText>
+    <label>Durée du projet</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
