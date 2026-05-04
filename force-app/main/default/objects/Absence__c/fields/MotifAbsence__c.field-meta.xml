@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MotifAbsence__c</fullName>
+    <description>Le motif de l&apos;absence</description>
+    <inlineHelpText>Le motif de l&apos;absence</inlineHelpText>
+    <label>Motif de  l&apos;absence</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Congés</fullName>
+                <default>true</default>
+                <label>Congés</label>
+            </value>
+            <value>
+                <fullName>Course Administrative</fullName>
+                <default>false</default>
+                <label>Course Administrative</label>
+            </value>
+            <value>
+                <fullName>Déménagement</fullName>
+                <default>false</default>
+                <label>Déménagement</label>
+            </value>
+            <value>
+                <fullName>Formation</fullName>
+                <default>false</default>
+                <label>Formation</label>
+            </value>
+            <value>
+                <fullName>Mariage</fullName>
+                <default>false</default>
+                <label>Mariage</label>
+            </value>
+            <value>
+                <fullName>Naissance</fullName>
+                <default>false</default>
+                <label>Naissance</label>
+            </value>
+            <value>
+                <fullName>Repos maladie</fullName>
+                <default>false</default>
+                <label>Repos maladie</label>
+            </value>
+            <value>
+                <fullName>Décès</fullName>
+                <default>false</default>
+                <label>Décès</label>
+            </value>
+            <value>
+                <fullName>Maladie</fullName>
+                <default>false</default>
+                <label>Maladie</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

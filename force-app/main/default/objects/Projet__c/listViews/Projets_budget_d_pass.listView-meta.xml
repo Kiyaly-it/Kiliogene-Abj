@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Projets_budget_d_pass</fullName>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>NAME</columns>
+    <columns>Statut__c</columns>
+    <columns>health_project__c</columns>
+    <columns>Icone_Evolution__c</columns>
+    <columns>startDate__c</columns>
+    <columns>endDate__c</columns>
+    <columns>actual_cost__c</columns>
+    <columns>Account__c</columns>
+    <columns>chef_projet__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Alerte_projet__c</field>
+        <operation>contains</operation>
+        <value>Budget Dépassé</value>
+    </filters>
+    <label>💸  🚨 Projets à budget dépassé</label>
+</ListView>

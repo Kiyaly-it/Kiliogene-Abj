@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Empecher_une_saisie</fullName>
+    <active>true</active>
+    <description>Cette règle permet d&apos;empêcher la saisie sur une tâche tant que sa date de début n&apos;est pas encore atteinte</description>
+    <errorConditionFormula>AND(
+    NOT(ISNEW()),
+    Date_debut__c &gt; NOW(),
+    NOT(ISCHANGED(Statut__c)),
+    NOT(ISCHANGED(OwnerId)),
+    NOT(ISCHANGED(User__c))
+)</errorConditionFormula>
+    <errorMessage>Vous ne pouvez pas saisir d’informations pour cette tâche tant que sa date de début n’est pas atteint</errorMessage>
+</ValidationRule>

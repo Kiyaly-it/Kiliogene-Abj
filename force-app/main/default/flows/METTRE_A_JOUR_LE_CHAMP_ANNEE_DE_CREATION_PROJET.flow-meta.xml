@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>METTRE A JOUR LE CHAMP ANNEE DE CREATION DU PROJET POUR SAUVEGARDER L&apos;ANNEE</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Année du projet</description>
+        <name>year_project</name>
+        <dataType>Number</dataType>
+        <expression>YEAR(TODAY())</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>METTRE A JOUR LE CHAMP ANNEE DE CREATION PROJET {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>METTRE A JOUR LE CHAMP ANNEE DE CREATION PROJET</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Mise à jour du champ année du projet</description>
+        <name>MAJ_Annee_projet</name>
+        <label>MAJ Annee projet</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>annee__c</field>
+            <value>
+                <numberValue>2025.0</numberValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>MAJ_Annee_projet</targetReference>
+        </connector>
+        <object>Projet__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

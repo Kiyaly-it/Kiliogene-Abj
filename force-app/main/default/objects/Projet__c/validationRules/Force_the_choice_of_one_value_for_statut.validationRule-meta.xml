@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Force_the_choice_of_one_value_for_statut</fullName>
+    <active>true</active>
+    <description>Forcer le choix d&apos;une seule valeur pour la multi picklist</description>
+    <errorConditionFormula>PICKLISTCOUNT(Statut__c) &gt; 1</errorConditionFormula>
+    <errorMessage>Veuillez choisir une seule valeur pour le statut</errorMessage>
+</ValidationRule>

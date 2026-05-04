@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>bloquer_une_tache</fullName>
+    <active>true</active>
+    <description>Lorsque une tache à le statut terminer, elle ne doit être modifiable que par l&apos;admin</description>
+    <errorConditionFormula>AND (
+    ISPICKVAL(Statut__c, &quot;Terminé&quot;),
+				$Profile.Name &lt;&gt; &quot;System Administrator&quot;
+
+
+)</errorConditionFormula>
+    <errorMessage>Lorsque le statut d&apos;une tâche est terminée seul l&apos;admin peux faire une modification</errorMessage>
+</ValidationRule>

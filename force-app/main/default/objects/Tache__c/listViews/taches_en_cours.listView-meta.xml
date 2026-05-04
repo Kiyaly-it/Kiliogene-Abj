@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>taches_en_cours</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>Projet__c</columns>
+    <columns>NAME</columns>
+    <columns>Alerte_Visuelle__c</columns>
+    <columns>Date_debut__c</columns>
+    <columns>Date_de_fin__c</columns>
+    <columns>jours_de_decalage__c</columns>
+    <columns>Montant__c</columns>
+    <columns>Taux__c</columns>
+    <columns>progression__c</columns>
+    <columns>User__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Statut__c</field>
+        <operation>equals</operation>
+        <value>En cours</value>
+    </filters>
+    <label>⏳ Tâches en cours</label>
+</ListView>

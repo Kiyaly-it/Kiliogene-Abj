@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Employe__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Employé lié à cette tâche</description>
+    <inlineHelpText>Employé lié à cette tâche</inlineHelpText>
+    <label>Employé</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Absences</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

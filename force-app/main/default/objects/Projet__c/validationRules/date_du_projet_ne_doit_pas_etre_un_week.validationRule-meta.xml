@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>date_du_projet_ne_doit_pas_etre_un_week</fullName>
+    <active>true</active>
+    <description>Empêcher l&apos;enregistrement des dates si elles tombent un week end</description>
+    <errorConditionFormula>OR(
+    WEEKDAY(startDate__c) = 1,
+    WEEKDAY(startDate__c) = 7,
+    WEEKDAY(endDate__c) = 1,
+    WEEKDAY(endDate__c) = 7
+)</errorConditionFormula>
+    <errorMessage>les dates du projet ne doivent pas coincider avec le week end</errorMessage>
+</ValidationRule>

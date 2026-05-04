@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Send Notification Mail To Supervisor</description>
+        <name>Send_Notification_Mail_To_Supervisor</name>
+        <label>Send Notification Mail To Supervisor</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>ccAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Demande d&apos;absence</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue> &lt;p&gt;&lt;strong style=&quot;font-size: 16px; text-decoration: underline;&quot;&gt;Une demande d&apos;absence&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A été adressée par : 
+    &lt;strong style=&quot;color: rgb(39, 79, 50); font-size: 14px;&quot;&gt;
+        {!$Record.Owner:User__NotFound.FirstName} {!$Record.Owner:User__NotFound.LastName}
+    &lt;/strong&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Pour une durée allant du 
+    &lt;strong style=&quot;color: rgb(34, 92, 55);&quot;&gt;{!$Record.StartDate__c}&lt;/strong&gt; 
+    au 
+    &lt;strong style=&quot;color: rgb(26, 92, 58);&quot;&gt;{!$Record.EndDate__c}&lt;/strong&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Nombre de jours déduits : &lt;strong&gt;{!$Record.duree__c}&lt;/strong&gt;&lt;/p&gt;</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>2.0.1</versionString>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>sum of all duree absences</description>
+        <name>sum_of_all_duree_absences</name>
+        <label>sum of all duree absences</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_Total_Duree_Cumulee</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loop_on_absence.duree__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_on_absence</targetReference>
+        </connector>
+    </assignments>
+    <description>Help to calculate year based on date_debut and send mail to supervisor of employe for valid or reject request absence</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Durée de l&apos;absence</description>
+        <name>duration_of_absence</name>
+        <dataType>Number</dataType>
+        <expression>( (5 * ( FLOOR( ( DATEVALUE({!$Record.EndDate__c}) - DATE( 1900, 1, 8) ) / 7 ) ) + MIN( 5, MOD( DATEVALUE({!$Record.EndDate__c}) - DATE( 1900, 1, 8), 7 ) ) )
+-
+(5 * ( FLOOR( ( DATEVALUE({!$Record.StartDate__c}) - DATE( 1900, 1, 8) ) / 7 ) ) + MIN( 5, MOD( DATEVALUE({!$Record.StartDate__c}) - DATE( 1900, 1, 8), 7 ) ) ) ) + 1</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Transform picklist Year to text</description>
+        <name>f_year_Text</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.annee__c})</expression>
+    </formulas>
+    <formulas>
+        <description>Recupérer le total des jours utilisés</description>
+        <name>Get_Total_jours_used</name>
+        <dataType>Number</dataType>
+        <expression>{!var_Total_Duree_Cumulee}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <description>Recupérer  l&apos;année à partir de  la date d&apos;absence de l&apos;activité</description>
+        <name>Get_Year_Date_Absence</name>
+        <dataType>Number</dataType>
+        <expression>YEAR(DATEVALUE({!$Record.StartDate__c}))</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <description>Get Year from Date</description>
+        <name>Get_Year_From_DATE</name>
+        <dataType>String</dataType>
+        <expression>TEXT(YEAR(DATEVALUE({!$Record.StartDate__c})))</expression>
+    </formulas>
+    <formulas>
+        <description>Get annual  solde of conges</description>
+        <name>GetSoldeannuelbasedonabsencedays</name>
+        <dataType>Number</dataType>
+        <expression>({!Get_Infos_on_solde_conges.Solde_Disponible__c} + {!Get_Infos_on_solde_conges.UsedDays__c}) - {!var_Total_Duree_Cumulee}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <description>Sum of days used</description>
+        <name>Sum_days_used</name>
+        <dataType>Number</dataType>
+        <expression>{!Get_Infos_on_solde_conges.UsedDays__c} + {!$Record.duree__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>Update Year and send mail According Date of absence {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Year and send mail According Date of absence</label>
+    <loops>
+        <description>Loop on all absences for suming absence</description>
+        <name>loop_on_absence</name>
+        <label>loop on absence</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_All_absence_of_user_connected</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>sum_of_all_duree_absences</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Infos_on_solde_conges</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get All absence of user connected</description>
+        <name>Get_All_absence_of_user_connected</name>
+        <label>Get All absence of user connected</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>loop_on_absence</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>annee__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Year_Date_Absence</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OwnerId__NotFound</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Owner:User__NotFound.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Validé</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Absence__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get infos for solde</description>
+        <name>Get_Infos_on_solde_conges</name>
+        <label>Get Infos on solde conges</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_solde_annual_conges</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>annee__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>f_year_Text</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Employe__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OwnerId__NotFound</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Solde_Conge__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update Absence by putting year and duration</description>
+        <name>Update_Absence_by_putting_year_and_duration</name>
+        <label>Update Absence by putting year and duration</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_All_absence_of_user_connected</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>annee__c</field>
+            <value>
+                <elementReference>Get_Year_Date_Absence</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>duree__c</field>
+            <value>
+                <elementReference>duration_of_absence</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Mise à jour du solde des congés</description>
+        <name>Update_solde_annual_conges</name>
+        <label>Update solde annual conges</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Send_Notification_Mail_To_Supervisor</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>annee__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>f_year_Text</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Employe__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OwnerId__NotFound</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Solde_Disponible__c</field>
+            <value>
+                <elementReference>GetSoldeannuelbasedonabsencedays</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UsedDays__c</field>
+            <value>
+                <elementReference>Get_Total_jours_used</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Solde_Conge__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Absence_by_putting_year_and_duration</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>StartDate__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Absence__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Sum all duree from all absences</description>
+        <name>var_Total_Duree_Cumulee</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exclure_les_weekends</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+				/* Bloqueer Samedi et Dimanche */  
+    WEEKDAY(DATEVALUE(CreatedDate)) = 1,  
+    WEEKDAY(DATEVALUE(CreatedDate)) = 7
+				
+				/* Heure de fin &lt; heure de début Heure_de_fin__c &lt;=  Heure_de_debut__c */
+				  
+				
+)</errorConditionFormula>
+    <errorMessage>La saisie de temps doit être sur un jour ouvrable (lundi à vendredi) et l’heure de fin doit être supérieure à l’heure de début.</errorMessage>
+</ValidationRule>

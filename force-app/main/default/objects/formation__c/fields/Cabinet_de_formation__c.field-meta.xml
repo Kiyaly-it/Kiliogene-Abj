@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cabinet_de_formation__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Cabinet de formation pour la certification</description>
+    <inlineHelpText>Cabinet de formation</inlineHelpText>
+    <label>Organisme de formation</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipName>Suivis_des_certifications</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

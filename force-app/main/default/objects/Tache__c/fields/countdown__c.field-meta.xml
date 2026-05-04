@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>countdown__c</fullName>
+    <description>jours restants avant la fin de la tâche</description>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(Date_de_fin__c), &quot;⚪ Date de fin non définie&quot;,
+    IF(NOT(ISBLANK(Date_debut__c)) &amp;&amp; TODAY() &lt; DATEVALUE(Date_debut__c),
+        &quot;📅 Pas encore commencé (Début le &quot; &amp; TEXT(DAY(DATEVALUE(Date_debut__c))) &amp; &quot;/&quot; &amp; TEXT(MONTH(DATEVALUE(Date_debut__c))) &amp; &quot;)&quot;,
+        IF((DATEVALUE(Date_de_fin__c) - TODAY()) &lt; 0,
+            &quot;🏁 𝐄́𝐂𝐇𝐄́𝐀𝐍𝐂𝐄 𝐃𝐄́𝐏𝐀𝐒𝐒𝐄́𝐄 (&quot; &amp; TEXT(ABS(DATEVALUE(Date_de_fin__c) - TODAY())) &amp; &quot; jours de retard)&quot;,
+            IF((DATEVALUE(Date_de_fin__c) - TODAY()) = 0,
+                &quot;🚨 𝐃𝐄𝐑𝐍𝐈𝐄𝐑 𝐉𝐎𝐔𝐑 !&quot;,
+                &quot;⏳ 𝐉 — &quot; &amp; 
+                SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(
+                TEXT(DATEVALUE(Date_de_fin__c) - TODAY()), 
+                &quot;0&quot;, &quot;𝟎&quot;), &quot;1&quot;, &quot;𝟏&quot;), &quot;2&quot;, &quot;𝟐&quot;), &quot;3&quot;, &quot;𝟑&quot;), &quot;4&quot;, &quot;𝟒&quot;), &quot;5&quot;, &quot;𝟓&quot;), &quot;6&quot;, &quot;𝟔&quot;), &quot;7&quot;, &quot;𝟕&quot;), &quot;8&quot;, &quot;𝟖&quot;), &quot;9&quot;, &quot;𝟗&quot;) 
+                &amp; &quot; 𝐚𝐯𝐚𝐧𝐭 𝐥𝐚 𝐟𝐢𝐧&quot;
+            )
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>jours restants avant la fin de la tâche</inlineHelpText>
+    <label>🕒 Jours restants</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

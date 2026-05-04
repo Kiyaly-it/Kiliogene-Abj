@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>annee__c</columns>
+    <columns>Employe__c</columns>
+    <columns>Solde_Disponible__c</columns>
+    <columns>UsedDays__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>Tous les congés</label>
+</ListView>

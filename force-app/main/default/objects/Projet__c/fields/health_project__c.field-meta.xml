@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>health_project__c</fullName>
+    <description>Santé du projet</description>
+    <externalId>false</externalId>
+    <formula>IF(INCLUDES(Statut__c, &quot;Terminé&quot;), &quot;✅ Terminé&quot;,
+    IF(INCLUDES(Statut__c, &quot;Annulé&quot;), &quot;❌ Annulé&quot;,
+        IF(INCLUDES(Statut__c, &quot;En cours&quot;), &quot;🔵 En cours&quot;,
+            IF(INCLUDES(Statut__c, &quot;En attente&quot;), &quot;⏳ En attente&quot;, 
+            &quot;⚪ Statut non défini&quot;)
+        )
+    )
+) 
+&amp; &quot; | &quot; &amp;
+IF(OR(ISBLANK(budget_c__c), ISBLANK(actual_cost__c)), &quot;💰 Budget non renseigné&quot;,
+    IF(actual_cost__c &gt; budget_c__c, &quot;🔴 DÉPASSEMENT BUDGET&quot;, 
+        IF(actual_cost__c &gt; (budget_c__c * 0.9), &quot;🟠 SEUIL 90%&quot;, &quot;🟢 Budget OK&quot;)
+    )
+) 
+&amp; &quot; | &quot; &amp;
+IF(OR(ISBLANK(startDate__c), ISBLANK(endDate__c)), &quot;⚪ Dates non définies&quot;,
+    /* Vérification globale du retard si le projet n&apos;est pas fini/annulé */
+    IF(AND(NOT(INCLUDES(Statut__c, &quot;Terminé&quot;)), NOT(INCLUDES(Statut__c, &quot;Annulé&quot;)), endDate__c &lt; TODAY()), 
+        &quot;🚨 PROJET EN RETARD&quot;,
+        IF(INCLUDES(Statut__c, &quot;En cours&quot;),
+            IF((endDate__c - TODAY()) &lt;= 3, &quot;⚠️ FIN IMMINENTE&quot;, &quot;📅 Planning OK&quot;),
+            IF(INCLUDES(Statut__c, &quot;En attente&quot;), 
+                IF(TODAY() &lt; startDate__c, &quot;🕒 Attente démarrage&quot;, &quot;⏳ En attente de début&quot;),
+                &quot;🚀 Prêt pour lancement&quot;
+            )
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Santé du projet</inlineHelpText>
+    <label>💎 Santé</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

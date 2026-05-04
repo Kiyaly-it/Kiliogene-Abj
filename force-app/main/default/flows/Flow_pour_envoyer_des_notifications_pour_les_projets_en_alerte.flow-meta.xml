@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>envoyer les mails à toutes les personnes impliquées dans le projet</description>
+        <name>SEND_MAIL_TO_RESPONSABLE</name>
+        <label>SEND MAIL TO RESPONSABLE</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Parcourir_tous_les_projets</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>ccAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>⚠️ Alerte et Suivi : État de santé de votre projet </stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>&lt;p&gt;Bonjour  &lt;strong&gt;{!Parcourir_tous_les_projets.chef_projet__r.LastName}&lt;/strong&gt;  &lt;strong&gt;{!Parcourir_tous_les_projets.chef_projet__r.FirstName}  &lt;/strong&gt;,&lt;/p&gt;&lt;p&gt;Nous avons effectué une analyse automatique de l&apos;état d&apos;avancement de vos projets ce jour. Ce message vous est adressé car le projet &lt;strong&gt;  {!Parcourir_tous_les_projets.Name} &lt;/strong&gt;requiert une attention particulière pour le(s) motif(s) suivant(s) :&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;color: rgb(166, 8, 8);&quot;&gt;Capacité Financière &lt;/strong&gt;&lt;strong style=&quot;color: rgb(211, 35, 35);&quot;&gt;:&lt;/strong&gt;&lt;span style=&quot;color: rgb(211, 35, 35);&quot;&gt; &lt;/span&gt;Le montant réel a atteint ou dépassé le budget initialement prévu.&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;color: rgb(160, 11, 11);&quot;&gt;Retard :&lt;/strong&gt; Certaines tâches critiques sont actuellement identifiées comme étant &quot;En retard&quot;.&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;color: rgb(157, 12, 12);&quot;&gt;Fin imminente :&lt;/strong&gt; La date d&apos;échéance du projet approche et nécessite une validation finale des livrables.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Détails actuels du projet :&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Santé globale :&lt;/strong&gt;               {!Parcourir_tous_les_projets.health_project__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Budget consommé :&lt;/strong&gt;  {!Parcourir_tous_les_projets.budget_c__c}   /   {!Parcourir_tous_les_projets.actual_cost__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Nombre de tâches en en cours :&lt;/strong&gt; {!Parcourir_tous_les_projets.Tasks_in_progress__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Nous vous invitons à mettre à jour le statut du projet dans Salesforce et à vous rapprocher de votre Business Analyst ou Manager si un arbitrage est nécessaire.&lt;/p&gt;&lt;p&gt;Cordialement, &lt;em&gt;L&apos;équipe Administration des Projets&lt;/em&gt;&lt;/p&gt;</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>2.0.1</versionString>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Verifier si le mail du chef de projet est renseigne</description>
+        <name>Verifier_si_le_mail_du_chef_de_projet_est_renseigne</name>
+        <label>Verifier si le mail du chef de projet est renseigne</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Parcourir_tous_les_projets</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>mail du chef de projet  null et conditions non respectées</defaultConnectorLabel>
+        <rules>
+            <name>mail_du_chef_de_projet_non_null_et_conditions_respectees</name>
+            <conditionLogic>1 AND ( 2 OR  3 OR 4 )</conditionLogic>
+            <conditions>
+                <leftValueReference>Parcourir_tous_les_projets.chef_projet__r.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Parcourir_tous_les_projets.budget_c__c</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Parcourir_tous_les_projets.actual_cost__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Parcourir_tous_les_projets.health_project__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>DÉPASSEMENT BUDGET</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Parcourir_tous_les_projets.health_project__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>FIN IMMINENTE</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SEND_MAIL_TO_RESPONSABLE</targetReference>
+            </connector>
+            <label>mail du chef de projet non null et conditions  respectees</label>
+        </rules>
+    </decisions>
+    <description>Flow pour envoyer des notifications pour les projets en alerte</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Date du jour</description>
+        <name>fm_DateDuJour</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <formulas>
+        <description>Nom du projet</description>
+        <name>frm_nomProjet</name>
+        <dataType>String</dataType>
+        <expression>{!Parcourir_tous_les_projets.Name}</expression>
+    </formulas>
+    <interviewLabel>Flow pour envoyer des notifications pour les projets en alerte {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow pour envoyer des notifications pour les projets en alerte</label>
+    <loops>
+        <description>Parcourir tous les projets</description>
+        <name>Parcourir_tous_les_projets</name>
+        <label>Parcourir tous les projets</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_All_projects</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Verifier_si_le_mail_du_chef_de_projet_est_renseigne</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get All projects for sending notifications</description>
+        <name>Get_All_projects</name>
+        <label>Get All projects</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Parcourir_tous_les_projets</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Projet__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Mail Business Analyst</description>
+        <name>Get_Mail_Business_Analyst</name>
+        <label>Get Mail Business Analyst</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_All_projects</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Fonction__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Business Analyst</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get All  Gerante de Kiliogene</description>
+        <name>Get_Mail_Gerant</name>
+        <label>Get Mail Gerant(e)</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Mail_Business_Analyst</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Fonction__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Gérante Kiliogène Abidjan</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Mail_Gerant</targetReference>
+        </connector>
+        <schedule>
+            <dayOfMonthToRun>0</dayOfMonthToRun>
+            <frequency>Weekly</frequency>
+            <frequencyNumber>0</frequencyNumber>
+            <startDate>2026-03-12</startDate>
+            <startTime>00:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>list_All_mails_owner_tasks</description>
+        <name>list_All_mails_owner_tasks</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Mail business Analyst</description>
+        <name>mail_businessAnalyst</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>mail  du manager</description>
+        <name>mail_manager</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

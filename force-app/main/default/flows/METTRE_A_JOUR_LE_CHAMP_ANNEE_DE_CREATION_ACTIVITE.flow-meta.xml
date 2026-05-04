@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>POUR METTRE A JOUR LE CHAMP ANNEE DE CREATION ACTIVITE</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>récupérer la date en fonction de l&apos;année de création de l&apos;activité</description>
+        <name>retrieve_year</name>
+        <dataType>Number</dataType>
+        <expression>YEAR(DATEVALUE({!$Record.CreatedDate}))</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>l&apos;anneé du jour</description>
+        <name>todayyear</name>
+        <dataType>Number</dataType>
+        <expression>YEAR(TODAY())</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>METTRE A JOUR LE CHAMP ANNEE DE CREATION ACTIVITE {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>METTRE A JOUR LE CHAMP ANNEE DE CREATION ACTIVITE</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Mis eà jour de l&apos;année de l&apos;activité en s&apos;appuyant sur la date de création</description>
+        <name>MAJ_Annee_Activite</name>
+        <label>MAJ Annee_Activité</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Annee_de_activite__c</field>
+            <value>
+                <elementReference>todayyear</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>MAJ_Annee_Activite</targetReference>
+        </connector>
+        <object>Tache__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

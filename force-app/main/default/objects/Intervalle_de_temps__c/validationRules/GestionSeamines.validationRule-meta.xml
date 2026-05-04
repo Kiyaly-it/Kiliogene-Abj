@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GestionSeamines</fullName>
+    <active>true</active>
+    <description>Cette règle permet de faire un blocage sur les intervalles sur la semaine</description>
+    <errorConditionFormula>OR(
+
+    /* Début le week-end */
+    WEEKDAY(Date_de_debut__c) = 1,
+    WEEKDAY(Date_de_debut__c) = 7,
+
+    /* Fin le week-end */
+    WEEKDAY(Date_de_fin__c) = 1,
+    WEEKDAY(Date_de_fin__c) = 7,
+
+    /* Fin avant début */
+    Date_de_fin__c &lt; Date_de_debut__c,
+
+    /* Fin après le vendredi de la semaine du début */
+     Date_de_fin__c &gt;
+    (
+         Date_de_debut__c
+        + (6 - WEEKDAY(Date_de_debut__c))
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Date_de_fin__c</errorDisplayField>
+    <errorMessage>L&apos;intervalle doit être saisie sur une seule semaine ouvrable (lundi à vendredi).
+La date de fin ne peut pas dépasser le vendredi de la semaine de la date de début.</errorMessage>
+</ValidationRule>

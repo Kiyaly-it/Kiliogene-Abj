@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Annee_inferieure_annee_courante</fullName>
+    <active>true</active>
+    <description>Règle de validation pour empêcher l&apos;année de validation d&apos;être supérieure à l&apos;année en cours</description>
+    <errorConditionFormula>VALUE(TEXT(annee__c)) &gt; YEAR(TODAY())</errorConditionFormula>
+    <errorDisplayField>annee__c</errorDisplayField>
+    <errorMessage>L&apos;année de congés ne peut être supérieure à l&apos;année en cours</errorMessage>
+</ValidationRule>

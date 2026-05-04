@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>check_dates_task</fullName>
+    <active>true</active>
+    <description>La date de début  de la tâche doit être supérieure ou égale à la date début projet</description>
+    <errorConditionFormula>OR(
+  /* Début tâche AVANT début projet */
+  DATEVALUE(Date_debut__c) &lt; Projet__r.startDate__c,
+  
+  /* Début tâche APRÈS fin projet */
+  DATEVALUE(Date_debut__c) &gt; Projet__r.endDate__c,
+  
+  /* Fin tâche APRÈS fin projet */
+  DATEVALUE(Date_de_fin__c) &gt; Projet__r.endDate__c,
+  
+  /* Fin tâche AVANT début projet */
+  DATEVALUE(Date_de_fin__c) &lt; Projet__r.startDate__c
+)</errorConditionFormula>
+    <errorMessage>les dates de fin et de début de la tâche sont  en déhors des plages des dates du projet</errorMessage>
+</ValidationRule>

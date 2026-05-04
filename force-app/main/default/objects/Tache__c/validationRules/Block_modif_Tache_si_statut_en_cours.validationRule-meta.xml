@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Block_modif_Tache_si_statut_en_cours</fullName>
+    <active>true</active>
+    <description>Bloquer la modification de tâche si elle n&apos;est pas en cours</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Statut__c, &quot;En attente&quot;),
+    NOT(ISNEW()),
+    NOT(ISCHANGED(Statut__c)),
+    NOT(ISCHANGED(OwnerId)),
+    NOT(ISCHANGED(User__c))
+)</errorConditionFormula>
+    <errorMessage>Vous ne pouvez pas modifier une tâche qui a le statut en attente ou un retard , merci de changer le statut à en cours</errorMessage>
+</ValidationRule>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Sommer les pourcentages de chaque tâche</description>
+        <name>Accumuler_data_taches</name>
+        <label>Accumuler data tâches</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_SumPourcentage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>get_All_progression_for_all_taches.Taux__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_CountTaches</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>get_All_progression_for_all_taches</targetReference>
+        </connector>
+    </assignments>
+    <description>Mettre à jour la somme des tâches et le %</description>
+    <environments>Default</environments>
+    <interviewLabel>Mettre à jour la progression des tâche et le % des tâches {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Mettre à jour la somme des tâches et le %</label>
+    <loops>
+        <description>get All progression for all tâches</description>
+        <name>get_All_progression_for_all_taches</name>
+        <label>get All progression for all taches</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Recuperer_les_taches_liees_au_projet</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Accumuler_data_taches</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>update_project_Linked_to_record</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Recupérer les tâches liées au projet</description>
+        <name>Recuperer_les_taches_liees_au_projet</name>
+        <label>Recupérer les tâches liées au projet</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>get_All_progression_for_all_taches</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Projet__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Projet__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Tache__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>update project Linked to record</description>
+        <name>update_project_Linked_to_record</name>
+        <label>update project Linked to record</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Projet__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>En cours</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Total_Progress_Sum__c</field>
+            <value>
+                <elementReference>var_SumPourcentage</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>total_taches__c</field>
+            <value>
+                <elementReference>var_CountTaches</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Projet__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Recuperer_les_taches_liees_au_projet</targetReference>
+        </connector>
+        <object>Tache__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Nombre total de tâches</description>
+        <name>var_CountTaches</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Somme des pourcentages des taxes</description>
+        <name>var_SumPourcentage</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

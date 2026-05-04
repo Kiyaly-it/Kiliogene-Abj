@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Ajouter le montant à la somme</description>
+        <name>Ajouter_le_montant_la_somme</name>
+        <label>Ajouter le montant à la somme</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>varSommeMontants</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Feuille_de_temps__r.Tache__r.Montant__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Sommer_les_montants_de_taches</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>verifier la somme des montants</description>
+        <name>verifier_la_somme_des_montants</name>
+        <label>verifier la somme des montants</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>montant égal à 0</defaultConnectorLabel>
+        <rules>
+            <name>montant_superieur_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varSommeMontants</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mettre_jour_le_montant_du_Projet</targetReference>
+            </connector>
+            <label>montant superieur à 0</label>
+        </rules>
+    </decisions>
+    <description>Faire la somme des montants  totaux  des tâches à partir de la saisie d&apos;heures</description>
+    <environments>Default</environments>
+    <interviewLabel>Montant total des tâches à partir de la saisir d&apos;heures {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Montant total des tâches à partir de la saisie d&apos;heures</label>
+    <loops>
+        <description>Sommer les montants de taches</description>
+        <name>Sommer_les_montants_de_taches</name>
+        <label>Sommer les montants de taches</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_all_tasks_linked_to_project</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Ajouter_le_montant_la_somme</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>verifier_la_somme_des_montants</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get all tasks linked to project</description>
+        <name>Get_all_tasks_linked_to_project</name>
+        <label>Get all tasks linked to project</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Sommer_les_montants_de_taches</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Projet__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Feuille_de_temps__r.Tache__r.Projet__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Tache__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Mettre à jour le montant du Projet.</description>
+        <name>Mettre_jour_le_montant_du_Projet</name>
+        <label>Mettre à jour le montant du Projet</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Feuille_de_temps__r.Tache__r.Projet__r.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>actual_cost__c</field>
+            <value>
+                <elementReference>varSommeMontants</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Projet__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_all_tasks_linked_to_project</targetReference>
+        </connector>
+        <object>Saisie_de_temps__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Montant des sommes de chaque tâche</description>
+        <name>varSommeMontants</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

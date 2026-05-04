@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_ressource__c</fullName>
+    <label>Type ressource</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Développeur</fullName>
+                <default>false</default>
+                <label>Développeur</label>
+            </value>
+            <value>
+                <fullName>Business Analyste</fullName>
+                <default>false</default>
+                <label>Business Analyste</label>
+            </value>
+            <value>
+                <fullName>Responsable technique</fullName>
+                <default>false</default>
+                <label>Responsable technique</label>
+            </value>
+            <value>
+                <fullName>Gérant</fullName>
+                <default>false</default>
+                <label>Gérant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

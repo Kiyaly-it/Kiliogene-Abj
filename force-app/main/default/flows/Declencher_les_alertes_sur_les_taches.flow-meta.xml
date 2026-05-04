@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Déclencher les alertes sur les tâches</description>
+    <environments>Default</environments>
+    <interviewLabel>Déclencher les alertes sur les tâches {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Déclencher les  notification sur les. alertes sur les tâches</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Declencher_le_flow_des_alertes_sur_les_taches</targetReference>
+        </connector>
+        <schedule>
+            <dayOfMonthToRun>0</dayOfMonthToRun>
+            <frequency>Weekly</frequency>
+            <frequencyNumber>0</frequencyNumber>
+            <startDate>2026-03-12</startDate>
+            <startTime>00:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>Declencher le_flow des alertes sur les taches</description>
+        <name>Declencher_le_flow_des_alertes_sur_les_taches</name>
+        <label>Déclencher le flow des alertes sur les tâches</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>Envoyer_des_notifications_pour_les_alertes_sur_tache</flowName>
+    </subflows>
+</Flow>

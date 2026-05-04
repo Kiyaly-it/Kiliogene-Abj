@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_de_tache__c</fullName>
+    <description>Le type de tâche affectée à l&apos;employé</description>
+    <inlineHelpText>Le type de tâche affectée à l&apos;employé</inlineHelpText>
+    <label>📂 Type de tâche</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Apprentissage</fullName>
+                <default>true</default>
+                <label>Apprentissage</label>
+            </value>
+            <value>
+                <fullName>Correction de bug</fullName>
+                <default>false</default>
+                <label>Correction de bug</label>
+            </value>
+            <value>
+                <fullName>Perfectionnement</fullName>
+                <default>false</default>
+                <label>Perfectionnement</label>
+            </value>
+            <value>
+                <fullName>Propection</fullName>
+                <default>false</default>
+                <label>Propection</label>
+            </value>
+            <value>
+                <fullName>Tâche ponctuelle</fullName>
+                <default>false</default>
+                <label>Tâche ponctuelle</label>
+            </value>
+            <value>
+                <fullName>Certification</fullName>
+                <default>false</default>
+                <label>Certification</label>
+            </value>
+            <value>
+                <fullName>Analyse</fullName>
+                <default>false</default>
+                <label>Analyse</label>
+            </value>
+            <value>
+                <fullName>Technique</fullName>
+                <default>false</default>
+                <label>Technique</label>
+            </value>
+            <value>
+                <fullName>Design</fullName>
+                <default>false</default>
+                <label>Design</label>
+            </value>
+            <value>
+                <fullName>Sécurité</fullName>
+                <default>false</default>
+                <label>Sécurité</label>
+            </value>
+            <value>
+                <fullName>Quality Assurance</fullName>
+                <default>false</default>
+                <label>Quality Assurance</label>
+            </value>
+            <value>
+                <fullName>Formation</fullName>
+                <default>false</default>
+                <label>Formation</label>
+            </value>
+            <value>
+                <fullName>Administration</fullName>
+                <default>false</default>
+                <label>Administration</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
