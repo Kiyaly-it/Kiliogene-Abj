@@ -245,6 +245,12 @@
                 <elementReference>Heure_defin</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>User__c</field>
+            <value>
+                <elementReference>getIntervalle_de_temps.User__c</elementReference>
+            </value>
+        </inputAssignments>
         <object>Saisie_de_temps__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
