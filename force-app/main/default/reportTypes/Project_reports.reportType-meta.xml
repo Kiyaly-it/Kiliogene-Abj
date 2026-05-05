@@ -572,6 +572,11 @@
             <field>Heure_de_fin__c</field>
             <table>Projet__c.Taches__r.Feuille_de_temps__r.Saisie_de_temps__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>User__c</field>
+            <table>Projet__c.Taches__r.Feuille_de_temps__r.Saisie_de_temps__r</table>
+        </columns>
         <masterLabel>Saisie de temps</masterLabel>
     </sections>
 </ReportType>
