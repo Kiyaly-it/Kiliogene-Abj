@@ -213,6 +213,11 @@
             <field>Tache_Parent__c</field>
             <table>Tache__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Decalage__c</field>
+            <table>Tache__c</table>
+        </columns>
         <masterLabel>Tâches</masterLabel>
     </sections>
     <sections>

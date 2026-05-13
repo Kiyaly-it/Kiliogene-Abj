@@ -55,6 +55,7 @@
 		<members>montant_total_de_toutes_les_taches_par_projet</members>
 		<members>net_promoter_score</members>
 		<members>r_cup_ration_de_l_id_du_User</members>
+		<members>Cr_ation_d_une_t_che_sur_Id_projet</members>
 		<name>Flow</name>
 	</types>
 	<types>
@@ -152,6 +153,7 @@
 	</types>
 	<types>
 		<members>createSaisieTempsButton</members>
+		<members>createTacheSurProjet</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>
@@ -168,6 +170,14 @@
 		<members>formation__c</members>
 		<members>wiki_kiliog_ne</members>
 		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>Admin</members>
+		<members>Business analyste</members>
+		<members>Gerant%28e%29 Kiliogene Abidjan</members>
+		<members>Responsable technique</members>
+		<members>User Interface</members>
+		<name>Profile</name>
 	</types>
 	<version>65.0</version>
 </Package>

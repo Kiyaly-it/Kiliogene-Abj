@@ -161,13 +161,13 @@
             <inputParameters>
                 <name>toolbarActionsSerialized</name>
                 <value>
-                    <stringValue>[{&quot;label&quot;:&quot;Nouvelle Tache &quot;,&quot;name&quot;:&quot;nouvelleTache&quot;,&quot;iconName&quot;:&quot;utility:add&quot;}]</stringValue>
+                    <stringValue>[{&quot;label&quot;:&quot;Nouvelle Tâche&quot;,&quot;name&quot;:&quot;nouvelleTChe&quot;,&quot;iconName&quot;:&quot;action:new&quot;,&quot;title&quot;:&quot;Nouvelle_tache&quot;}]</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>inlineStyle</name>
                 <value>
-                    <stringValue>--avonni-scheduler-event-label-text-color: #2e2e2e; --avonni-scheduler-past-event-label-text-color: #2e2e2e; --avcmpbuilder-scheduler-toolbar-color-background: var(--lwc-colorBackground, #f3f2f2);</stringValue>
+                    <stringValue> --avonni-scheduler-event-label-text-color: #2e2e2e; --avonni-scheduler-past-event-label-text-color: #2e2e2e; --avcmpbuilder-scheduler-toolbar-color-background: var(--lwc-colorBackground, #f3f2f2); margin-top: var(--lwc-spacingXxLarge, 3rem); margin-right: var(--lwc-spacingXxLarge, 3rem); margin-bottom: var(--lwc-spacingXxLarge, 3rem); margin-left: var(--lwc-spacingXxLarge, 3rem); display: block;</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -203,7 +203,7 @@
             <inputParameters>
                 <name>evtToolbarActionClick</name>
                 <value>
-                    <stringValue>[{&quot;targetName&quot;:&quot;nouvelleTache&quot;,&quot;type&quot;:&quot;NavigationMixinNavigate&quot;,&quot;navigationMixinNavigateType&quot;:&quot;standard__objectPage&quot;,&quot;navigationMixinNavigateObjectPageObjectApiName&quot;:&quot;Tache__c&quot;,&quot;navigationMixinNavigateObjectPageActionName&quot;:&quot;new&quot;}]</stringValue>
+                    <stringValue>[{&quot;targetName&quot;:&quot;nouvelleTache&quot;,&quot;type&quot;:&quot;NavigationMixinNavigate&quot;,&quot;navigationMixinNavigateType&quot;:&quot;standard__objectPage&quot;,&quot;navigationMixinNavigateObjectPageObjectApiName&quot;:&quot;Tache__c&quot;,&quot;navigationMixinNavigateObjectPageActionName&quot;:&quot;new&quot;},{&quot;targetName&quot;:&quot;nouvelleTChe&quot;,&quot;type&quot;:&quot;OpenFlowPanel&quot;,&quot;flowPanelApiName&quot;:&quot;Cr_ation_d_une_tache&quot;,&quot;flowPanelPosition&quot;:&quot;right&quot;,&quot;flowPanelSize&quot;:&quot;x-large&quot;}]</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>

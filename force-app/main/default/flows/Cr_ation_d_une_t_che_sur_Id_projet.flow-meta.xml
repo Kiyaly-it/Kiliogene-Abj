@@ -2,11 +2,6 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <apiVersion>66.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
-    <choices>
-        <name>projetValide</name>
-        <choiceText>&lt;span style=&quot;font-size: 13px;&quot;&gt;INCLUDES({!get_Projet.Statut__c}, &quot;En cours&quot;)&lt;/span&gt;</choiceText>
-        <dataType>Number</dataType>
-    </choices>
     <customProperties>
         <name>ScreenProgressIndicator</name>
         <value>
@@ -14,8 +9,39 @@
         </value>
     </customProperties>
     <decisions>
-        <description>L&apos;intervalle de la tâche doit être inclu dans l&apos;intervalle du projet</description>
-        <name>Validation_de_l_intervalle_de_la_tache</name>
+        <name>Quel_est_le_statut_du_projet</name>
+        <label>Quel est le statut du projet ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Statut_projet</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Non</defaultConnectorLabel>
+        <rules>
+            <name>En_cours_ou_En_attente</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>getProjet.Statut__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>En cours</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getProjet.Statut__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Stand by</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Creation_d_une_tache</targetReference>
+            </connector>
+            <label>En cours ou En attente</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Validation_de_l_intervalle_de_la_t_che</name>
         <label>Validation de l&apos;intervalle de la tâche</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -30,14 +56,14 @@
                 <leftValueReference>DateDebutSaisieTache</leftValueReference>
                 <operator>GreaterThanOrEqualTo</operator>
                 <rightValue>
-                    <elementReference>get_Projet.startDate__c</elementReference>
+                    <elementReference>getProjet.startDate__c</elementReference>
                 </rightValue>
             </conditions>
             <conditions>
                 <leftValueReference>DateFinSaisieTache</leftValueReference>
                 <operator>LessThanOrEqualTo</operator>
                 <rightValue>
-                    <elementReference>get_Projet.endDate__c</elementReference>
+                    <elementReference>getProjet.endDate__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -46,7 +72,7 @@
             <label>Inclu</label>
         </rules>
     </decisions>
-    <description>Ce flow permet de créer une tâche afin de la liée à un projet</description>
+    <description>Ce flux permet de créer une tâche directement sur un projet</description>
     <dynamicChoiceSets>
         <name>Currency</name>
         <dataType>Picklist</dataType>
@@ -62,35 +88,7 @@
         <object xsi:nil="true"/>
         <picklistField>Priorite__c</picklistField>
         <picklistObject>Tache__c</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>Projet_Encours</name>
-        <dataType>String</dataType>
-        <displayField>Name</displayField>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Statut__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>En cours</stringValue>
-            </value>
-        </filters>
-        <object>Projet__c</object>
-        <outputAssignments>
-            <assignToReference>NamePjt</assignToReference>
-            <field>Name</field>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>DatePF</assignToReference>
-            <field>endDate__c</field>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>DatePD</assignToReference>
-            <field>startDate__c</field>
-        </outputAssignments>
-        <sortField>Name</sortField>
         <sortOrder>Asc</sortOrder>
-        <valueField>Id</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>StatutTache</name>
@@ -99,6 +97,7 @@
         <object xsi:nil="true"/>
         <picklistField>Statut__c</picklistField>
         <picklistObject>Tache__c</picklistObject>
+        <sortOrder>Asc</sortOrder>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>TypeDeTache</name>
@@ -107,20 +106,7 @@
         <object xsi:nil="true"/>
         <picklistField>Type_de_tache__c</picklistField>
         <picklistObject>Tache__c</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>User</name>
-        <dataType>String</dataType>
-        <displayField>UserAffected__c</displayField>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>User__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <object>Tache__c</object>
+        <sortOrder>Asc</sortOrder>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>UserIsActive</name>
@@ -169,8 +155,8 @@
         <dataType>Date</dataType>
         <expression>DATEVALUE({!Date_de_fin})</expression>
     </formulas>
-    <interviewLabel>Création d&apos;une tâche {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Création d&apos;une tâche</label>
+    <interviewLabel>Création d&apos;une tâche sur Id projet {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Création d&apos;une tâche sur Id projet</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -240,7 +226,7 @@
         <inputAssignments>
             <field>Projet__c</field>
             <value>
-                <elementReference>get_Projet.Id</elementReference>
+                <elementReference>getProjet.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -271,20 +257,20 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
-        <name>get_Projet</name>
-        <label>get Projet</label>
+        <name>getProjet</name>
+        <label>getProjet</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Creation_de_la_tache</targetReference>
+            <targetReference>Quel_est_le_statut_du_projet</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ProjtEncours.selectedChoiceValues</elementReference>
+                <elementReference>recordId</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -292,16 +278,29 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
-        <name>Creation_de_la_tache</name>
-        <label>Création de la tâche</label>
+        <name>Creation_d_une_tache</name>
+        <label>Création d&apos;une tâche</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Validation_de_l_intervalle_de_la_tache</targetReference>
+            <targetReference>Validation_de_l_intervalle_de_la_t_che</targetReference>
         </connector>
+        <fields>
+            <name>Attention</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;⚠️ &lt;/span&gt;&lt;strong style=&quot;font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Veuillez actualiser votre page après la création pour visualiser les nouvelles données.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
         <fields>
             <name>Informations</name>
             <fieldText>📋 Informations</fieldText>
@@ -309,32 +308,6 @@
             <fields>
                 <name>Informations_Column1</name>
                 <fieldType>Region</fieldType>
-                <fields>
-                    <name>Projet</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Projet: &lt;/strong&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;{!NamePjt}&lt;/span&gt;&lt;/p&gt;</fieldText>
-                    <fieldType>DisplayText</fieldType>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <name>espace</name>
-                    <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
-                    <fieldType>DisplayText</fieldType>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
                 <fields>
                     <name>Nom_de_la_tache</name>
                     <dataType>String</dataType>
@@ -350,10 +323,6 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
-                    <validationRule>
-                        <errorMessage>&lt;p&gt;Attention : le titre est trop long. Il&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt; ne doit pas dépasser 80 caractères&lt;/span&gt;&lt;/p&gt;</errorMessage>
-                        <formulaExpression>LEN({!Nom_de_la_tache}) &lt;= 80</formulaExpression>
-                    </validationRule>
                 </fields>
                 <fields>
                     <name>Detail_de_la_tache</name>
@@ -369,10 +338,6 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
-                    <validationRule>
-                        <errorMessage>&lt;p&gt;La description est trop longue. Elle ne doit pas dépasser &lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;32768&lt;/strong&gt; caractères&lt;/p&gt;</errorMessage>
-                        <formulaExpression>LEN({!Detail_de_la_tache}) &lt;= 32768</formulaExpression>
-                    </validationRule>
                 </fields>
                 <fields>
                     <name>Type_de_tache</name>
@@ -454,8 +419,8 @@
                 <name>Informations_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>Datedebut</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Date de début&lt;/strong&gt;:  {!DatePD}&lt;/p&gt;</fieldText>
+                    <name>DatedebutPrjt</name>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Date de début du projet&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;: {!getProjet.startDate__c}&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <styleProperties>
                         <verticalAlignment>
@@ -467,8 +432,8 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <name>Datedefin</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Date de fin:&lt;/strong&gt; {!DatePF}&lt;/p&gt;</fieldText>
+                    <name>DatedefinPrjt</name>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Date de fin du projet: &lt;/strong&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;{!getProjet.endDate__c}&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <styleProperties>
                         <verticalAlignment>
@@ -638,16 +603,16 @@
         <label>Date hors projet</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Creation_de_la_tache</targetReference>
+            <targetReference>Creation_d_une_tache</targetReference>
         </connector>
         <fields>
             <name>msgHorsDate</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;La tâche doit être comprise entre le &lt;/span&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;{!DatePD}&lt;/strong&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; et le &lt;/span&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;{!DatePF}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;La tâche doit être comprise entre le &lt;/span&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;{!getProjet.startDate__c}&lt;/strong&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt; &lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;et le &lt;/span&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;{!getProjet.endDate__c}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
@@ -666,7 +631,7 @@
         <label>Erreur Création Tache</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
@@ -695,7 +660,7 @@
         <allowPause>false</allowPause>
         <fields>
             <name>msgSuccess</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(3, 166, 42); font-size: 18px;&quot;&gt;Vous avez créé la tâche avec succès.&lt;/strong&gt;&lt;span style=&quot;color: rgb(5, 195, 33);&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(3, 166, 42); font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Vous avez créé la tâche avec succès.&lt;/strong&gt;&lt;span style=&quot;color: rgb(5, 195, 33); background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
@@ -707,59 +672,20 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
+        <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Selectionner_le_projet</name>
-        <label>Sélectionner le projet</label>
+        <name>Statut_projet</name>
+        <label>Statut projet</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <connector>
-            <targetReference>get_Projet</targetReference>
-        </connector>
         <fields>
-            <name>Selectionner_le_projet_Section1</name>
-            <fieldType>RegionContainer</fieldType>
-            <fields>
-                <name>Selectionner_le_projet_Section1_Column1</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>ProjtEncours</name>
-                    <choiceReferences>Projet_Encours</choiceReferences>
-                    <extensionName>flowruntime:choiceLookup</extensionName>
-                    <fieldText>Projet associé</fieldText>
-                    <fieldType>ComponentChoice</fieldType>
-                    <inputParameters>
-                        <name>placeholder</name>
-                        <value>
-                            <stringValue>Seuls les projets en cours sont autorisés</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>12</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <name>MessageStatut</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Le statut du projet doit être &lt;/strong&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;En cours&lt;/strong&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt; ou &lt;/strong&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;En attente&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -776,7 +702,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Selectionner_le_projet</targetReference>
+            <targetReference>getProjet</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -795,17 +721,10 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>NamePjt</name>
+        <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>varProjetId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>
