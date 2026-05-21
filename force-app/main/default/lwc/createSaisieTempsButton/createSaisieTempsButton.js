@@ -2,7 +2,6 @@ import { LightningElement, api } from 'lwc';
 
 export default class CreateSaisieTempsButton extends LightningElement {
     @api recordId;
-
     showFlow = false;
 
     get flowInputVariables() {
@@ -19,8 +18,13 @@ export default class CreateSaisieTempsButton extends LightningElement {
         this.showFlow = true;
     }
 
+    closeFlow() {
+        this.showFlow = false;
+    }
+
     handleStatusChange(event) {
-        if (event.detail.status === 'FINISHED') {
+        // 'FINISHED' ou 'FINISHED_SCREEN' selon la configuration de votre Flow
+        if (event.detail.status === 'FINISHED' || event.detail.status === 'FINISHED_SCREEN') {
             this.showFlow = false;
         }
     }

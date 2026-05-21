@@ -1,0 +1,43 @@
+<template>
+    <lightning-card title="Synthèse Hebdomadaire des Temps" icon-name="standard:timesheet">
+        <div class="slds-m-around_medium">
+            <template if:true={timesheetData}>
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">Ressource</th>
+                            <th scope="col">Tâche</th>
+                            <th scope="col">Date Début</th>
+                            <th scope="col" style="width: 150px;">Total Heures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={timesheetData} for:item="row">
+                            <tr key={row.Id}>
+                                <td>{row.resourceName}</td>
+                                <td>{row.taskName}</td>
+                                <td>{row.startDate}</td>
+                                <td>
+                                    <lightning-input 
+                                        type="number" 
+                                        value={row.totalHours} 
+                                        disabled={row.isNotOwner}
+                                        data-id={row.Id}
+                                        onchange={handleInputChange}
+                                        variant="label-hidden">
+                                    </lightning-input>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div class="slds-m-top_medium">
+                    <lightning-button label="Enregistrer mes temps" variant="brand" onclick={handleSave}></lightning-button>
+                </div>
+            </template>
+            <template if:false={timesheetData}>
+                <p>Aucune donnée pour cette semaine.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -303,7 +303,7 @@
         <label>Date début diff Date de fin</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -331,9 +331,9 @@
         <label>erreurToday + 1</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Saisie_de_temps</targetReference>
@@ -359,9 +359,9 @@
         <label>Hors horaires</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Saisie_de_temps</targetReference>
@@ -411,9 +411,9 @@
         <label>Msg d&apos;erreur</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Saisie_de_temps</targetReference>
@@ -439,9 +439,9 @@
         <label>Saisie de temps</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <targetReference>Verifie_intervalle</targetReference>
         </connector>
@@ -582,7 +582,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <start>
         <locationX>0</locationX>

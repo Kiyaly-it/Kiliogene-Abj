@@ -220,6 +220,11 @@
             <field>Total_des_taches_suspendues__c</field>
             <table>Projet__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Chef_de_projet__c</field>
+            <table>Projet__c</table>
+        </columns>
         <masterLabel>Projets</masterLabel>
     </sections>
     <sections>
@@ -414,6 +419,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Tache_Parent__c</field>
+            <table>Projet__c.Taches__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Decalage__c</field>
             <table>Projet__c.Taches__r</table>
         </columns>
         <masterLabel>Tâches</masterLabel>

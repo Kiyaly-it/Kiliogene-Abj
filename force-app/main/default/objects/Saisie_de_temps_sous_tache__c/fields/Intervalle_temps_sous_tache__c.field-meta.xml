@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Intervalle_temps_sous_tache__c</fullName>
+    <label>Intervalle temps sous tache</label>
+    <referenceTo>Intervalle_temps_sous_tache__c</referenceTo>
+    <relationshipLabel>Saisie de temps sous tâches</relationshipLabel>
+    <relationshipName>Saisie_de_temps_sous_t_ches</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

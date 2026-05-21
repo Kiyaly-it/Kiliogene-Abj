@@ -2,6 +2,11 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <apiVersion>66.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <choices>
+        <name>projetValide</name>
+        <choiceText>&lt;span style=&quot;font-size: 13px;&quot;&gt;INCLUDES({!get_Projet.Statut__c}, &quot;En cours&quot;)&lt;/span&gt;</choiceText>
+        <dataType>Number</dataType>
+    </choices>
     <customProperties>
         <name>ScreenProgressIndicator</name>
         <value>
@@ -57,6 +62,35 @@
         <object xsi:nil="true"/>
         <picklistField>Priorite__c</picklistField>
         <picklistObject>Tache__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>Projet_Encours</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Statut__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>En cours</stringValue>
+            </value>
+        </filters>
+        <object>Projet__c</object>
+        <outputAssignments>
+            <assignToReference>NamePjt</assignToReference>
+            <field>Name</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>DatePF</assignToReference>
+            <field>endDate__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>DatePD</assignToReference>
+            <field>startDate__c</field>
+        </outputAssignments>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <valueField>Id</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>StatutTache</name>
@@ -250,7 +284,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>varProjetId</elementReference>
+                <elementReference>ProjtEncours.selectedChoiceValues</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -264,7 +298,7 @@
         <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <targetReference>Validation_de_l_intervalle_de_la_tache</targetReference>
         </connector>
@@ -277,7 +311,7 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Projet</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Projet: &lt;/strong&gt;{!get_Projet.Name}&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Projet: &lt;/strong&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;{!NamePjt}&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <styleProperties>
                         <verticalAlignment>
@@ -302,6 +336,45 @@
                     </styleProperties>
                 </fields>
                 <fields>
+                    <name>Nom_de_la_tache</name>
+                    <dataType>String</dataType>
+                    <fieldText>Nom de la tâche</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;Attention : le titre est trop long. Il&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt; ne doit pas dépasser 80 caractères&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>LEN({!Nom_de_la_tache}) &lt;= 80</formulaExpression>
+                    </validationRule>
+                </fields>
+                <fields>
+                    <name>Detail_de_la_tache</name>
+                    <fieldText>Détail de la tâche</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;La description est trop longue. Elle ne doit pas dépasser &lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;32768&lt;/strong&gt; caractères&lt;/p&gt;</errorMessage>
+                        <formulaExpression>LEN({!Detail_de_la_tache}) &lt;= 32768</formulaExpression>
+                    </validationRule>
+                </fields>
+                <fields>
                     <name>Type_de_tache</name>
                     <choiceReferences>TypeDeTache</choiceReferences>
                     <dataType>String</dataType>
@@ -319,44 +392,13 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <name>Nom_de_la_tache</name>
-                    <dataType>String</dataType>
-                    <fieldText>Nom de la tâche</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <name>Detail_de_la_tache</name>
-                    <fieldText>Détail de la tâche</fieldText>
-                    <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
                     <name>Priorites</name>
                     <choiceReferences>Priorite</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>Priorité</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -413,7 +455,7 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Datedebut</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Date de début&lt;/strong&gt;: {!get_Projet.startDate__c}&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Date de début&lt;/strong&gt;:  {!DatePD}&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <styleProperties>
                         <verticalAlignment>
@@ -426,7 +468,7 @@
                 </fields>
                 <fields>
                     <name>Datedefin</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Date de fin:&lt;/strong&gt; {!get_Projet.endDate__c}&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Date de fin:&lt;/strong&gt; {!DatePF}&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <styleProperties>
                         <verticalAlignment>
@@ -598,14 +640,14 @@
         <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Creation_de_la_tache</targetReference>
         </connector>
         <fields>
             <name>msgHorsDate</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;La tâche doit être comprise entre le &lt;/span&gt;&lt;strong style=&quot;color: rgb(4, 186, 68); font-size: 16px;&quot;&gt;{!get_Projet.startDate__c}&lt;/strong&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; et le &lt;/span&gt;&lt;strong style=&quot;color: rgb(4, 186, 68); font-size: 16px;&quot;&gt;{!get_Projet.endDate__c}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;La tâche doit être comprise entre le &lt;/span&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;{!DatePD}&lt;/strong&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; et le &lt;/span&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(4, 186, 68);&quot;&gt;{!DatePF}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
@@ -626,7 +668,7 @@
         <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <fields>
             <name>erreur</name>
             <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(237, 10, 10);&quot;&gt;{!$Flow.FaultMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
@@ -685,45 +727,20 @@
                 <name>Selectionner_le_projet_Section1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>Projetassocie</name>
-                    <extensionName>flowruntime:lookup</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
+                    <name>ProjtEncours</name>
+                    <choiceReferences>Projet_Encours</choiceReferences>
+                    <extensionName>flowruntime:choiceLookup</extensionName>
+                    <fieldText>Projet associé</fieldText>
+                    <fieldType>ComponentChoice</fieldType>
                     <inputParameters>
-                        <name>fieldApiName</name>
+                        <name>placeholder</name>
                         <value>
-                            <stringValue>Projet__c</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>label</name>
-                        <value>
-                            <stringValue>Projet associé</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>objectApiName</name>
-                        <value>
-                            <stringValue>Tache__c</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>required</name>
-                        <value>
-                            <booleanValue>true</booleanValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>maxValues</name>
-                        <value>
-                            <numberValue>1.0</numberValue>
+                            <stringValue>Seuls les projets en cours sont autorisés</stringValue>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <outputParameters>
-                        <assignToReference>varProjetId</assignToReference>
-                        <name>recordId</name>
-                    </outputParameters>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -763,6 +780,27 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>DatePD</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>DatePF</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>NamePjt</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>varProjetId</name>
         <dataType>String</dataType>

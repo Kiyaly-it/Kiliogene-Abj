@@ -116,7 +116,7 @@
             <inputParameters>
                 <name>itemsSObjectMapping</name>
                 <value>
-                    <stringValue>{&quot;groupFieldName&quot;:&quot;{{Record.Statut__c}}&quot;,&quot;summarizeAttributes&quot;:&quot;{{Record.actual_cost__c}}&quot;,&quot;cardAttributes&quot;:{&quot;linkify&quot;:true,&quot;title&quot;:&quot;{{Record.Name}}&quot;,&quot;startDate&quot;:&quot;{{Record.startDate__c}}&quot;,&quot;dueDate&quot;:&quot;{{Record.endDate__c}}&quot;,&quot;customFields&quot;:[&quot;health_project__c&quot;,&quot;Icone_Evolution__c&quot;,&quot;budget_c__c&quot;,&quot;actual_cost__c&quot;,&quot;ecart_budg_taire__c&quot;,&quot;Countdown__c&quot;,&quot;startDate__c&quot;,&quot;endDate__c&quot;,&quot;Statut__c&quot;,&quot;total_taches__c&quot;,&quot;Tasks_in_progress__c&quot;,&quot;completed_tasks__c&quot;,&quot;overdueTasks__c&quot;]}}</stringValue>
+                    <stringValue>{&quot;groupFieldName&quot;:&quot;{{Record.Statut__c}}&quot;,&quot;summarizeAttributes&quot;:&quot;{{Record.actual_cost__c}}&quot;,&quot;cardAttributes&quot;:{&quot;linkify&quot;:true,&quot;title&quot;:&quot;{{Record.Name}}&quot;,&quot;startDate&quot;:&quot;{{Record.startDate__c}}&quot;,&quot;dueDate&quot;:&quot;{{Record.endDate__c}}&quot;,&quot;customFields&quot;:[&quot;Chef_de_projet__c&quot;,&quot;health_project__c&quot;,&quot;Icone_Evolution__c&quot;,&quot;budget_c__c&quot;,&quot;actual_cost__c&quot;,&quot;ecart_budg_taire__c&quot;,&quot;Countdown__c&quot;,&quot;startDate__c&quot;,&quot;endDate__c&quot;,&quot;Statut__c&quot;,&quot;total_taches__c&quot;,&quot;Tasks_in_progress__c&quot;,&quot;completed_tasks__c&quot;,&quot;overdueTasks__c&quot;]}}</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -128,7 +128,7 @@
             <inputParameters>
                 <name>columnOrderDirection</name>
                 <value>
-                    <stringValue>{&quot;direction&quot;:&quot;custom&quot;,&quot;customValue&quot;:[&quot;Terminé&quot;,&quot;En cours&quot;,&quot;Stand by&quot;,&quot;Annulé&quot;]}</stringValue>
+                    <stringValue>{&quot;direction&quot;:&quot;custom&quot;,&quot;customValue&quot;:[&quot;En cours&quot;,&quot;Stand by&quot;,&quot;Annulé&quot;,&quot;Terminé&quot;]}</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -152,7 +152,7 @@
             <inputParameters>
                 <name>inlineStyle</name>
                 <value>
-                    <stringValue>--avcmpbuilder-primitive-global-header-color-background: #e5e5e5; --avcmpbuilder-primitive-global-header-color-border: #181818; --avcmpbuilder-primitive-global-header-title-text-color: #181818; display: block; margin-top: -0.75rem; width: 100%; --avcmpbuilder-bc-kanban-column-sizing-min-width: 0px; --avcmpbuilder-bc-kanban-column-sizing-max-width: 100%; height: 800px;</stringValue>
+                    <stringValue>--avcmpbuilder-primitive-global-header-color-background: #e5e5e5; --avcmpbuilder-primitive-global-header-color-border: #181818; --avcmpbuilder-primitive-global-header-title-text-color: #181818; display: block; margin-top: -0.75rem; width: 100%; --avcmpbuilder-bc-kanban-column-sizing-min-width: 0px; --avcmpbuilder-bc-kanban-column-sizing-max-width: 100%; height: 700px;</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -195,5 +195,5 @@
             <targetReference>ListeProjet</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>
