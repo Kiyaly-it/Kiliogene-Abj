@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 
-export default class CreateSaisieTempsButton extends LightningElement {
+export default class CreateSaisieTempsSousTacheButton extends LightningElement {
     @api recordId;
     showFlow = false;
 

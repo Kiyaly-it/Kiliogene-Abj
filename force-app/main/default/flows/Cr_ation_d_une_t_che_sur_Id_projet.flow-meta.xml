@@ -282,7 +282,7 @@
         <label>Création d&apos;une tâche</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -323,6 +323,10 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Attention : le titre est trop long. Il ne doit pas dépasser &lt;/span&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;80&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt; caractères&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>LEN({!Nom_de_la_tache}) &lt;= 80</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <name>Detail_de_la_tache</name>
@@ -338,6 +342,10 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;La description est trop longue. Elle ne doit pas dépasser &lt;/span&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;32768&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt; caractères&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>LEN({!Detail_de_la_tache}) &lt;= 32768</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <name>Type_de_tache</name>
@@ -596,7 +604,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Date_hors_projet</name>
@@ -624,7 +632,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Erreur_Creation_Tache</name>
@@ -648,7 +656,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Message_succ_s</name>
@@ -672,7 +680,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Statut_projet</name>
@@ -696,7 +704,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <start>
         <locationX>0</locationX>

@@ -10,6 +10,9 @@
 		<members>Solde_Conge__c</members>
 		<members>Tache__c</members>
 		<members>formation__c</members>
+		<members>Intervalle_temps_sous_tache__c</members>
+		<members>Saisie_de_temps_sous_tache__c</members>
+		<members>Sous_tache__c</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
@@ -56,6 +59,7 @@
 		<members>net_promoter_score</members>
 		<members>r_cup_ration_de_l_id_du_User</members>
 		<members>Cr_ation_d_une_t_che_sur_Id_projet</members>
+		<members>Creer_Saisie_de_temps_sous_tache</members>
 		<name>Flow</name>
 	</types>
 	<types>
@@ -125,6 +129,8 @@
 		<members>Time_Sheet_Record_Page</members>
 		<members>User_Record_Page</members>
 		<members>wiki_kiliog_ne</members>
+		<members>Intervalle_temps_sous_tache_Record_Page</members>
+		<members>Sous_tache_Record_Page</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
@@ -153,6 +159,9 @@
 	</types>
 	<types>
 		<members>createSaisieTempsButton</members>
+		<members>createTacheSurProjet</members>
+		<members>createSaisieTempsSousTacheButton</members>
+		<members>createSousTacheButton</members>
 		<members>createTacheSurProjet</members>
 		<name>LightningComponentBundle</name>
 	</types>

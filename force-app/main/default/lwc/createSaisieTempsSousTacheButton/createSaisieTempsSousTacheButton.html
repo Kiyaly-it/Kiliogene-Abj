@@ -2,7 +2,7 @@
     <lightning-card>
         <div class="slds-p-around_medium slds-align_absolute-center">
             <lightning-button
-                label="Nouvelle saisie de temps"
+                label="Nouvelle saisie de temps sous tâche"
                 icon-name="utility:add"
                 variant="brand"
                 onclick={openFlow}>
@@ -16,12 +16,12 @@
                         <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Fermer" onclick={closeFlow}>
                             <lightning-icon icon-name="utility:close" size="small" variant="inverse"></lightning-icon>
                         </button>
-                        <h2 class="slds-text-heading_medium">Créer une saisie de temps</h2>
+                        <h2 class="slds-text-heading_medium">Créer une saisie de temps sous tâche</h2>
                     </header>
 
                     <div class="slds-modal__content slds-p-around_medium">
                         <lightning-flow
-                            flow-api-name="Cr_er_Saisie_de_temps"
+                            flow-api-name="Creer_Saisie_de_temps_sous_tache"
                             flow-input-variables={flowInputVariables}
                             onstatuschange={handleStatusChange}>
                         </lightning-flow>

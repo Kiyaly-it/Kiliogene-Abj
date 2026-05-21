@@ -18,8 +18,13 @@ export default class CreateTacheSurProjet extends LightningElement {
         this.showFlow = true;
     }
 
+    closeFlow() {
+        this.showFlow = false;
+    }
+
     handleStatusChange(event) {
-        if (event.detail.status === 'FINISHED') {
+        // 'FINISHED' ou 'FINISHED_SCREEN' selon la configuration de votre Flow
+        if (event.detail.status === 'FINISHED' || event.detail.status === 'FINISHED_SCREEN') {
             this.showFlow = false;
         }
     }
